@@ -4,6 +4,8 @@ module Adder(
 	//input
 	input clk,
 	input rst,
+	input EF,
+	input start,
 	input [2*NBits-1:0]Number,					//2N to N bits on the register example just the multiplicand part of the register carri Multiplicand Multiplier
 	input Enable,					//Enables the sum if its not enabled it gives the number 2 in the output
 	//Output
@@ -19,18 +21,25 @@ always@(posedge clk or negedge rst)
 
 	if (!rst)
 		begin
-		if(Enable == 1'b1) 
-				begin
-				SUM_Register <= SUM_Register + Number;
-				end
+			SUM_Register <= {2*NBits{1'b0}};
+
 			
 		end
-	else 
+	else if(start)
 		begin
-			
-								SUM_Register <= {2*NBits{1'b0}};
+			SUM_Register <= {2*NBits{1'b0}};
+		end
+	else
+		begin
+				if(!EF)
+					begin
+						if(Enable == 1'b1) 
+							begin
+								SUM_Register <= SUM_Register + Number;
+							end
 
-	end
+					end
+		end
 end
 assign Sum_Output = SUM_Register;
 

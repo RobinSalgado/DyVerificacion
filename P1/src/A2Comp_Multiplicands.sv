@@ -4,6 +4,7 @@ module A2Comp_Multiplicands(
 	//inputs	
 	input clk,
 	input rst,
+	input EF,
 	input start,
 	input  [NBits-1:0]Number_to_2_complement,		
 	//outputs					
@@ -18,7 +19,7 @@ always_ff@(posedge clk or negedge rst)
 		begin
 			Number <= {NBits{1'b0}};
 		end
-	else if(start == 1)
+	else 
 		begin
 			if(Number_to_2_complement[NBits-1] == 1'b1) 
 				begin
@@ -29,8 +30,7 @@ always_ff@(posedge clk or negedge rst)
 					Number =Number_to_2_complement;
 				end
 		end
-	else
-		Number = Number;
+
 end
 assign Result =  Number  ;
 endmodule

@@ -12,11 +12,11 @@ always_ff@(posedge clk or negedge rst)
 	begin
 	if (!rst)
 		begin
-			S <= Multiplicand ^ Multiplier;
+			S <= ~(Multiplicand ^ Multiplier);
 		end
 	else if(start == 1)
 		begin
-			S <= Multiplicand ^ Multiplier;
+			S <= ~ (Multiplicand ^ Multiplier);
 		end
 	else
 		S <= S;

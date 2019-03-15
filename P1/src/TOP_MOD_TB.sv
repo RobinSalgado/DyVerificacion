@@ -1,23 +1,26 @@
+`timescale 1ps / 1ps
 
 import Parameter_Definitions::*;
 
-module TOP_MOD
-(
-	input clk,
-	input rst,
-	input start,
-	input [NBits-1:0]Multiplier,
-	input [NBits-1:0]Multiplicand,
+module TOP_MOD_TB;
 
-	output ready,
-	output [6:0]ONES,
-	output [6:0]TENS,
-	output [6:0]HUNDREDS,
-	output [6:0]THOUSAND,
-	output [6:0]TEN_THOUSAND,
-	output sign
-//						output LED DISPLAY			// ESTO SE DEBE QUE VER EN EL DISPLAY DE 7 Segmentos
-);
+	// Input Ports
+	logic clk;
+	logic rst;
+	logic start;
+	reg [NBits-1:0]Multiplier;
+	reg [NBits-1:0]Multiplicand;
+	
+	// Output Ports 
+	wire ready;
+	
+	wire [6:0] ONES;
+	wire [6:0]TENS;
+	wire [6:0]HUNDREDS;
+	wire [6:0]THOUSAND;
+	wire [6:0]TEN_THOUSAND;
+	
+	logic sign;
 
 //WIRES
 wire ovf_WIRE;
@@ -67,7 +70,7 @@ assign sign = SIGN_WIRE;
 /*** Debouncer start  ***/
 /************************/
 
-debouncer debouncer_mod
+debouncer debouncer_mod 
 (
 	//Inputs			
 	.clk(clk),
@@ -189,7 +192,6 @@ A2Comp_Multiplicands		A2_Multiplicand(
 	//outputs					
 	.Result(Multiplicand_WIRE)					//I need better names	
 );
-
 /************************/
 /***   Multiplexor    ***/
 /************************/
@@ -258,5 +260,44 @@ BCD_7seg ten_thousand
 	// Output Ports
 	.segmento_output(TEN_THOUSAND_DISP_WIRE)
 );
-endmodule
+/*********************************************************/
 
+/*********************************************************/
+initial begin // reset generator
+		clk = 0;
+		start = 1;	
+		rst = 1;
+		Multiplier		= -3;
+		Multiplicand   = -2;
+	#4 rst = 0;
+	#4 rst = 1;
+	
+	#20 start = 0;
+	#4 start = 1;	
+	
+	Multiplier		= 5;
+	Multiplicand   = 7;
+
+	#50 start = 0;
+	#4  start = 1;
+	
+	#50 Multiplier		= -2;
+	    Multiplicand   = 3;
+
+	
+	#30000   start = 0;
+	#4  start = 1;
+
+		#50 Multiplier		= 4;
+	    Multiplicand   = 4;
+
+
+	#30000   start = 0;
+	#4  start = 1;
+	
+end/*********************************************************/
+
+always begin
+    #1 clk = ~clk;
+end
+endmodule 

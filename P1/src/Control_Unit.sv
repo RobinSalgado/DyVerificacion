@@ -8,7 +8,7 @@ module Control_Unit
 	input start,						//Start the multiplication
 	input counter_Flag,					//Tells you when the counter has finished
 	//outputs
-	output Force_reset,					//Resets the register
+	output ENABLE_FLAG,					//Resets the register
 	output ready						//Tells you when the multiplication has finished
 );
 
@@ -35,12 +35,13 @@ always_ff@(posedge clk or negedge rst)	begin
 						
 						if(start == 1)  			//Put the numbers and start multiplying when start is activated 
 							begin
+								FR <= 0;	
 								state <= WAIT;
 							end
 					end
 				WAIT:
 					begin
-						FR <= 1;
+						FR <= 0;
 						state <= MULTIPLY;
 					end
 				MULTIPLY:
@@ -74,6 +75,6 @@ always_ff@(posedge clk or negedge rst)	begin
 				endcase
 		end
 end
-assign Force_reset = FR;
+assign ENABLE_FLAG = FR;
 assign ready = RDY;
 endmodule
