@@ -30,7 +30,7 @@ always @ (posedge clk or negedge rst)
 						ovf <= 0;
 						count <= {NBits{1'b0}};		
 					end
-				else if(count < NBits )	
+				else if(count < (NBits+1) )	
 							begin
 								count <= count + 1'b1;
 								ovf <= 0;
