@@ -9,6 +9,6 @@ onbreak {resume}
 set NoQuitOnFinish 1
 
 vsim -voptargs=+acc work.TOP_MOD_TB
-do wave_piso.do
+do wave_P1.do
 
 run 1300ms
