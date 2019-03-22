@@ -15,7 +15,8 @@ module TOP_MOD
 	output [6:0]HUNDREDS,
 	output [6:0]THOUSAND,
 	output [6:0]TEN_THOUSAND,
-	output sign
+	output sign,
+	output pll
 //						output LED DISPLAY			// ESTO SE DEBE QUE VER EN EL DISPLAY DE 7 Segmentos
 );
 
@@ -61,12 +62,20 @@ assign TEN_THOUSAND = TEN_THOUSAND_DISP_WIRE;
 assign ADD_EN_WIRE = Shifter_Right_WIRE[0];
 
 assign sign = SIGN_WIRE;
+wire PLL_OUT_WIRE;
+assign pll = PLL_OUT_WIRE;
 
 
+//
+// pll pll_top(
+//	.areset(~rst),
+//	.inclk0(clk),
+//	.c0(PLL_OUT_WIRE)
+//	);
+	
 /************************/
 /*** Debouncer start  ***/
 /************************/
-
 debouncer debouncer_mod
 (
 	//Inputs			
@@ -158,17 +167,6 @@ SIGN		SIGN_MODULE(
 	.sign(SIGN_WIRE)
 );
 
-/************************/
-/*** Two's complement ***/
-/************************/
-
-
-A2Comp		A2_output(
-	//inputs	
-	.Number_to_2_complement(Sum_WIRE),
-	//outputs					
-	.Result(A2Comp_WIRE)					//I need better names	
-);
 
 A2Comp_Multiplicands		A2_Multiplier(
 	//inputs	
@@ -178,7 +176,7 @@ A2Comp_Multiplicands		A2_Multiplier(
 	.start(start_WIRE),
 	.Number_to_2_complement(Multiplier),
 	//outputs					
-	.Result(Multiplier_WIRE)					//I need better names	
+	.Result(Multiplier_WIRE)						
 );
 A2Comp_Multiplicands		A2_Multiplicand(
 	//inputs	
@@ -187,21 +185,7 @@ A2Comp_Multiplicands		A2_Multiplicand(
 	.start(start_WIRE),
 	.Number_to_2_complement(Multiplicand),
 	//outputs					
-	.Result(Multiplicand_WIRE)					//I need better names	
-);
-
-/************************/
-/***   Multiplexor    ***/
-/************************/
-
-Multiplexor		Multiplexor_Module(
-	// Input 
-	.Reg_Part1(Sum_WIRE),
-	.CompA2(A2Comp_WIRE),
-	.Selector(SIGN_WIRE),
-	.Enable(Ready_WIRE),
-	// Output 
-	.Output(Mult_Result_WIRE)
+	.Result(Multiplicand_WIRE)						
 );
 
 
@@ -258,5 +242,7 @@ BCD_7seg ten_thousand
 	// Output Ports
 	.segmento_output(TEN_THOUSAND_DISP_WIRE)
 );
+
+
 endmodule
 
