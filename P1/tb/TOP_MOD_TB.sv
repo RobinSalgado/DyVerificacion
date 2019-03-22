@@ -257,29 +257,22 @@ initial begin // reset generator
 		clk = 0;
 		start = 1;	
 		rst = 1;
-		Multiplier		= -3;
-		Multiplicand   = -2;
+
 	#4 rst = 0;
 	#4 rst = 1;
 	
 	#20 start = 0;
 	#4 start = 1;	
-	
-	Multiplier		= 3;
-	Multiplicand   = 7;
 
 	#50 start = 0;
 	#4  start = 1;
 	
-	#50 Multiplier		= -2;
-	    Multiplicand   = 3;
-
 	
 	#30000   start = 0;
 	#4  start = 1;
 
-		#50 Multiplier		= -5;
-	    Multiplicand   = -5;
+		#50 Multiplier		= -128;
+	    Multiplicand   = -128;
 
 
 	#30000   start = 0;
