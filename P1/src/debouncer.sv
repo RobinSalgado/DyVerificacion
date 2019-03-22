@@ -30,7 +30,7 @@ always @ (posedge clk or negedge rst)
 					end
 				if (start_count == 1)
 				begin
-					if(count < 10000000 )	
+					if(count < 100_000 )	
 							begin
 
 								count <= count + 1'b1;
