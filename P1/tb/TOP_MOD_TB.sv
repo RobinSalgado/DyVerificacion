@@ -24,7 +24,7 @@ module TOP_MOD_TB;
 
 //WIRES
 wire ovf_WIRE;
-wire Force_reset_WIRE;
+wire ENABLE_FLAG_WIRE;
 wire Ready_WIRE;
 wire [2*NBits-1:0]Shifter_Left_WIRE;
 wire [NBits-1:0]Shifter_Right_WIRE;
@@ -36,8 +36,6 @@ wire ADD_EN_WIRE;
 wire [2*NBits-1:0] A2Comp_WIRE;
 
 wire [2*NBits-1:0]Mult_Result_WIRE;
-
-//assigns
 wire [3:0]ONES_WIRE;
 wire [3:0]TENS_WIRE;
 wire [3:0]HUNDREDS_WIRE;
@@ -52,6 +50,9 @@ wire [6:0]TEN_THOUSAND_DISP_WIRE;
 
 wire [NBits-1:0] Multiplier_WIRE;
 wire [NBits-1:0] Multiplicand_WIRE;
+
+wire start_WIRE;
+
 //assigns
 assign ready = Ready_WIRE;
 assign ONES = ONES_DISP_WIRE;
@@ -60,27 +61,34 @@ assign HUNDREDS = HUNDREDS_DISP_WIRE;
 assign THOUSAND = THOUSAND_DISP_WIRE;
 assign TEN_THOUSAND = TEN_THOUSAND_DISP_WIRE;
 
-assign sign = SIGN_WIRE;
-
 assign ADD_EN_WIRE = Shifter_Right_WIRE[0];
 
-TOP_MOD uut
-(
-	.clk(clk),
-	.rst(rst),
-	.start(start),
-	.Multiplier(Multiplier),
-	.Multiplicand(Multiplicand),
+assign sign = SIGN_WIRE;
+//logic PLL_OUT_WIRE;
+//assign pll = PLL_OUT_WIRE;
 
-	.ready(ready),
-//						output LED DISPLAY			// ESTO SE DEBE QUE VER EN EL DISPLAY DE 7 Segmentos
-	.ONES(ONES),
-	.TENS(TENS),
-	.HUNDREDS(HUNDREDS),
-	.THOUSAND(THOUSAND),
-	.TEN_THOUSAND(TEN_THOUSAND),
-	.sign(sign)
+
+
+//pll pll_top(
+//	.areset(~rst),
+//	.inclk0(clk),
+//	.c0(PLL_OUT_WIRE)
+//	);
+	
+/************************/
+/*** Debouncer start  ***/
+/************************/
+
+debouncer debouncer_mod 
+(
+	//Inputs			
+	.clk(clk),
+	.start(~start),
+	.rst(rst),						//Reset the counter
+	.debouncer_out(start_WIRE) //negated_shift_enable Tells you when it has finished so it stops the shifting
 );
+
+
 
 
 /************************/
@@ -92,10 +100,10 @@ Control_Unit   Control_SM(
 	//inputs
 	.clk(clk),						//Internal clock
 	.rst(rst),						//Master_Reset
-	.start(start),					//Start the multiplication
+	.start(start_WIRE),					//Start the multiplication
 	.counter_Flag(ovf_WIRE),
 	//outputs
-	.Force_reset(Force_reset_WIRE),				//Resets the register
+	.ENABLE_FLAG(ENABLE_FLAG_WIRE),				//Resets the register
 	.ready(Ready_WIRE)					//Tells you when the multiplication has finished
 );
 
@@ -103,13 +111,12 @@ Control_Unit   Control_SM(
 /***   Counter        ***/
 /************************/
 
-
-
-Counter		N_Bit_Counter
+Counter		Bit_Count
 (
 	//Inputs			
-	.clk(clk),						
-	.rst(Force_reset_WIRE),						//Reset the counter
+	.clk(clk),
+	.EF(ENABLE_FLAG_WIRE),
+	.rst(rst),						//Reset the counter
 	//.bits_till_ovf()				//Size of N-1 (number of bits to count -1) number of shifts
 	//Output	
 	.overflow(ovf_WIRE) 					//negated_shift_enable Tells you when it has finished so it stops the shifting
@@ -121,13 +128,16 @@ Counter		N_Bit_Counter
 
 Register_Shifter		Reg_Shifter(
 	.clk(clk),
-	.rst(Force_reset_WIRE),
+	.EF(ENABLE_FLAG_WIRE),
+	.rst(rst),
+	.start(start_WIRE),
 	.enb(ovf_WIRE),
 	.inp_Multiplier(Multiplier_WIRE),
 	.inp_Multiplicand(Multiplicand_WIRE),
 	.out_Multiplier(Shifter_Left_WIRE),
 	.out_Multiplicand(Shifter_Right_WIRE)
 );
+
 
 
 /************************/
@@ -138,7 +148,9 @@ Register_Shifter		Reg_Shifter(
 Adder		Adder_Unit_For_Multiplier(	
 	//input
 	.clk(clk),
-	.rst(Force_reset_WIRE),
+	.rst(rst),
+	.EF(ENABLE_FLAG_WIRE),
+	.start(start_WIRE),
 	.Number(Shifter_Left_WIRE),					//Multiplier
 	.Enable(ADD_EN_WIRE),					//Enables the sum if its not enabled it gives the number 2 in the output
 	//Output
@@ -152,7 +164,7 @@ Adder		Adder_Unit_For_Multiplier(
 SIGN		SIGN_MODULE(
 	.Multiplicand(Multiplicand[NBits-1]),
 	.Multiplier(Multiplier[NBits-1]),
-	.start(start),
+	.start(start_WIRE),
 	.clk(clk),
 	.rst(rst),
 	.sign(SIGN_WIRE)
@@ -163,48 +175,32 @@ SIGN		SIGN_MODULE(
 /************************/
 
 
-A2Comp		A2_output(
-	//inputs	
-	.Number_to_2_complement(Sum_WIRE),
-	//outputs					
-	.Result(A2Comp_WIRE)					//I need better names	
-);
 
 A2Comp_Multiplicands		A2_Multiplier(
 	//inputs	
 	.clk(clk),
-	.rst(Force_reset_WIRE),
-	.start(start),
+	.rst(rst),
+	
+	.start(start_WIRE),
 	.Number_to_2_complement(Multiplier),
-
 	//outputs					
 	.Result(Multiplier_WIRE)					//I need better names	
 );
 A2Comp_Multiplicands		A2_Multiplicand(
 	//inputs	
 	.clk(clk),
-	.rst(Force_reset_WIRE),
-	.start(start),
+	.rst(rst),
+	.start(start_WIRE),
 	.Number_to_2_complement(Multiplicand),
 	//outputs					
 	.Result(Multiplicand_WIRE)					//I need better names	
 );
 
-/************************/
-/***   Multiplexor    ***/
-/************************/
-
-Multiplexor		Multiplexor_Module(
-	// Input 
-	.Reg_Part1(Sum_WIRE),
-	.CompA2(A2Comp_WIRE),
-	.Selector(SIGN_WIRE),
-	.Enable(Ready_WIRE),
-	// Output 
-	.Output(Mult_Result_WIRE)
-);
 
 
+/*************/
+/**************/
+/***************/
 
 binary_to_BCD_14   Display(
 	.A(Sum_WIRE),
@@ -214,6 +210,7 @@ binary_to_BCD_14   Display(
 	.THOUSAND(THOUSAND_WIRE),
 	.TEN_THOUSAND(TEN_THOUSAND_WIRE)
 	);
+	
 	
 BCD_7seg ones
 (
@@ -258,28 +255,35 @@ BCD_7seg ten_thousand
 /*********************************************************/
 initial begin // reset generator
 		clk = 0;
-		start = 0;	
+		start = 1;	
 		rst = 1;
 		Multiplier		= -3;
 		Multiplicand   = -2;
 	#4 rst = 0;
 	#4 rst = 1;
 	
-	#20 start = 1;
-	#4 start = 0;	
+	#20 start = 0;
+	#4 start = 1;	
 	
-	Multiplier		= 5;
+	Multiplier		= 3;
 	Multiplicand   = 7;
 
-	#50 start = 1;
-	#4  start = 0;
+	#50 start = 0;
+	#4  start = 1;
 	
-	#50 Multiplier		= -1;
-	    Multiplicand   = 2;
+	#50 Multiplier		= -2;
+	    Multiplicand   = 3;
 
 	
-	#50   start = 1;
-	#4  start = 0;
+	#30000   start = 0;
+	#4  start = 1;
+
+		#50 Multiplier		= -5;
+	    Multiplicand   = -5;
+
+
+	#30000   start = 0;
+	#4  start = 1;
 	
 end/*********************************************************/
 
