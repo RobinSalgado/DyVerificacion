@@ -6,13 +6,9 @@
 ../src/BCD_7seg.sv
 ../src/binary_to_BCD_14B.sv 
 ../src/Counter.sv
-../src/Multiplexor.sv
 ../src/Register_Shifter.sv
-../src/Top_Module_Binary_2BCD.sv
 ../src/A2Comp_Multiplicands.sv
-../src/binary_to_BCD.sv
 ../src/Control_Unit.sv
-../src/definitions.sv
-../src/seven_Segments_Module.sv
 ../src/TOP_MOD.sv
+../src/debouncer.sv
 TOP_MOD_TB.sv
