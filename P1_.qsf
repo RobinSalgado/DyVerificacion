@@ -1,0 +1,276 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 2018  Intel Corporation. All rights reserved.
+# Your use of Intel Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Intel Program License 
+# Subscription Agreement, the Intel Quartus Prime License Agreement,
+# the Intel FPGA IP License Agreement, or other applicable license
+# agreement, including, without limitation, that your use is for
+# the sole purpose of programming logic devices manufactured by
+# Intel and sold by Intel or its authorized distributors.  Please
+# refer to the applicable agreement for further details.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus Prime
+# Version 18.0.0 Build 614 04/24/2018 SJ Lite Edition
+# Date created = 12:29:10  March 16, 2019
+#
+# -------------------------------------------------------------------------- #
+#
+# Notes:
+#
+# 1) The default values for assignments are stored in the file:
+#		P1__assignment_defaults.qdf
+#    If this file doesn't exist, see file:
+#		assignment_defaults.qdf
+#
+# 2) Altera recommends that you do not modify this file. This
+#    file is updated automatically by the Quartus Prime software
+#    and any changes you make may be lost or overwritten.
+#
+# -------------------------------------------------------------------------- #
+
+
+set_global_assignment -name FAMILY "Cyclone IV E"
+set_global_assignment -name DEVICE EP4CE115F29C7
+set_global_assignment -name TOP_LEVEL_ENTITY TOP_MOD
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION 18.0.0
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "12:29:10  MARCH 16, 2019"
+set_global_assignment -name LAST_QUARTUS_VERSION "18.0.0 Lite Edition"
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1
+set_global_assignment -name NOMINAL_CORE_SUPPLY_VOLTAGE 1.2V
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_location_assignment PIN_AB28 -to Multiplier[0]
+set_location_assignment PIN_AC28 -to Multiplier[1]
+set_location_assignment PIN_AC27 -to Multiplier[2]
+set_location_assignment PIN_AD27 -to Multiplier[3]
+set_location_assignment PIN_AB27 -to Multiplier[4]
+set_location_assignment PIN_AC26 -to Multiplier[5]
+set_location_assignment PIN_AD26 -to Multiplier[6]
+set_location_assignment PIN_AB26 -to Multiplier[7]
+set_location_assignment PIN_AB25 -to Multiplicand[0]
+set_location_assignment PIN_AC24 -to Multiplicand[1]
+set_location_assignment PIN_AB24 -to Multiplicand[2]
+set_location_assignment PIN_AB23 -to Multiplicand[3]
+set_location_assignment PIN_AA24 -to Multiplicand[4]
+set_location_assignment PIN_AA23 -to Multiplicand[5]
+set_location_assignment PIN_AA22 -to Multiplicand[6]
+set_location_assignment PIN_Y24 -to Multiplicand[7]
+set_location_assignment PIN_G18 -to ONES[0]
+set_location_assignment PIN_F22 -to ONES[1]
+set_location_assignment PIN_E17 -to ONES[2]
+set_location_assignment PIN_L26 -to ONES[3]
+set_location_assignment PIN_L25 -to ONES[4]
+set_location_assignment PIN_J22 -to ONES[5]
+set_location_assignment PIN_H22 -to ONES[6]
+set_location_assignment PIN_M24 -to TENS[0]
+set_location_assignment PIN_Y22 -to TENS[1]
+set_location_assignment PIN_W21 -to TENS[2]
+set_location_assignment PIN_W22 -to TENS[3]
+set_location_assignment PIN_W25 -to TENS[4]
+set_location_assignment PIN_U23 -to TENS[5]
+set_location_assignment PIN_U24 -to TENS[6]
+set_location_assignment PIN_AA25 -to HUNDREDS[0]
+set_location_assignment PIN_AA26 -to HUNDREDS[1]
+set_location_assignment PIN_Y25 -to HUNDREDS[2]
+set_location_assignment PIN_W26 -to HUNDREDS[3]
+set_location_assignment PIN_Y26 -to HUNDREDS[4]
+set_location_assignment PIN_W27 -to HUNDREDS[5]
+set_location_assignment PIN_W28 -to HUNDREDS[6]
+set_location_assignment PIN_V21 -to THOUSAND[0]
+set_location_assignment PIN_U21 -to THOUSAND[1]
+set_location_assignment PIN_AB20 -to THOUSAND[2]
+set_location_assignment PIN_AA21 -to THOUSAND[3]
+set_location_assignment PIN_AD24 -to THOUSAND[4]
+set_location_assignment PIN_AF23 -to THOUSAND[5]
+set_location_assignment PIN_Y19 -to THOUSAND[6]
+set_location_assignment PIN_AB19 -to TEN_THOUSAND[0]
+set_location_assignment PIN_AA19 -to TEN_THOUSAND[1]
+set_location_assignment PIN_AG21 -to TEN_THOUSAND[2]
+set_location_assignment PIN_AH21 -to TEN_THOUSAND[3]
+set_location_assignment PIN_AE19 -to TEN_THOUSAND[4]
+set_location_assignment PIN_AF19 -to TEN_THOUSAND[5]
+set_location_assignment PIN_AE18 -to TEN_THOUSAND[6]
+set_location_assignment PIN_M23 -to start
+set_location_assignment PIN_R24 -to rst
+set_location_assignment PIN_AH18 -to sign
+set_location_assignment PIN_G19 -to ready
+set_location_assignment PIN_Y2 -to clk
+set_global_assignment -name ENABLE_SIGNALTAP ON
+set_global_assignment -name USE_SIGNALTAP_FILE Student_Robin/stp2.stp
+set_global_assignment -name SLD_NODE_CREATOR_ID 110 -section_id auto_signaltap_1
+set_global_assignment -name SLD_NODE_ENTITY_NAME sld_signaltap -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[0] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[0]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[1] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[10]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[2] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[11]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[3] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[12]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[4] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[13]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[5] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[14]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[6] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[15]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[7] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[16]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[8] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[1]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[9] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[2]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[10] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[3]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[11] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[4]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[12] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[5]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[13] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[6]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[14] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[7]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[15] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[8]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[16] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[9]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[17] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[0]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[18] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[10]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[19] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[11]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[20] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[12]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[21] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[13]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[22] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[14]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[23] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[15]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[24] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[16]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[25] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[1]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[26] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[2]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[27] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[3]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[28] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[4]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[29] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[5]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[30] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[6]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[31] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[7]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[32] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[8]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[33] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[9]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[0] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[0]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[1] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[10]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[2] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[11]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[3] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[12]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[4] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[13]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[5] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[14]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[6] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[15]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[7] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[16]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[8] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[1]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[9] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[2]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[10] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[3]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[11] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[4]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[12] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[5]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[13] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[6]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[14] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[7]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[15] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[8]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[16] -to "Adder:Adder_Unit_For_Multiplier|SUM_Register[9]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[17] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[0]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[18] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[10]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[19] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[11]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[20] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[12]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[21] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[13]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[22] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[14]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[23] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[15]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[24] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[16]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[25] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[1]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[26] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[2]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[27] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[3]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[28] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[4]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[29] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[5]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[30] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[6]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[31] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[7]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[32] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[8]" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[33] -to "Adder:Adder_Unit_For_Multiplier|Sum_Output[9]" -section_id auto_signaltap_1
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_RAM_BLOCK_TYPE=AUTO" -section_id auto_signaltap_1
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_INFO=805334529" -section_id auto_signaltap_1
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_POWER_UP_TRIGGER=0" -section_id auto_signaltap_1
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_INVERSION_MASK_LENGTH=0" -section_id auto_signaltap_1
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SEGMENT_SIZE=128" -section_id auto_signaltap_1
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ATTRIBUTE_MEM_MODE=OFF" -section_id auto_signaltap_1
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STATE_FLOW_USE_GENERATED=0" -section_id auto_signaltap_1
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STATE_BITS=11" -section_id auto_signaltap_1
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_BUFFER_FULL_STOP=1" -section_id auto_signaltap_1
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_CURRENT_RESOURCE_WIDTH=1" -section_id auto_signaltap_1
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INCREMENTAL_ROUTING=1" -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[3] -to auto_signaltap_1|gnd -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[5] -to auto_signaltap_1|vcc -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[6] -to auto_signaltap_1|vcc -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[7] -to auto_signaltap_1|gnd -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[11] -to auto_signaltap_1|vcc -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[12] -to auto_signaltap_1|gnd -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[13] -to auto_signaltap_1|vcc -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[15] -to auto_signaltap_1|gnd -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[16] -to auto_signaltap_1|gnd -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[17] -to auto_signaltap_1|gnd -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[19] -to auto_signaltap_1|gnd -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[20] -to auto_signaltap_1|gnd -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[21] -to auto_signaltap_1|vcc -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[24] -to auto_signaltap_1|gnd -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[25] -to auto_signaltap_1|gnd -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[26] -to auto_signaltap_1|vcc -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[27] -to auto_signaltap_1|vcc -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[28] -to auto_signaltap_1|vcc -section_id auto_signaltap_1
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SAMPLE_DEPTH=128" -section_id auto_signaltap_1
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_PIPELINE=0" -section_id auto_signaltap_1
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_RAM_PIPELINE=0" -section_id auto_signaltap_1
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_COUNTER_PIPELINE=0" -section_id auto_signaltap_1
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL_PIPELINE=1" -section_id auto_signaltap_1
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ENABLE_ADVANCED_TRIGGER=0" -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[0] -to auto_signaltap_1|vcc -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[1] -to auto_signaltap_1|vcc -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[2] -to auto_signaltap_1|vcc -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[4] -to auto_signaltap_1|vcc -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[8] -to auto_signaltap_1|gnd -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[9] -to auto_signaltap_1|vcc -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[10] -to auto_signaltap_1|vcc -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[14] -to auto_signaltap_1|vcc -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[22] -to auto_signaltap_1|gnd -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[23] -to auto_signaltap_1|gnd -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_clk -to clk -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT trigger_in -to start -section_id auto_signaltap_1
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_IN_ENABLED=1" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[34] -to "Control_Unit:Control_SM|ready" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[35] -to "Control_Unit:Control_SM|start" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[36] -to "Control_Unit:Control_SM|state.IDLE" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[37] -to "Control_Unit:Control_SM|state.MULTIPLY" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[38] -to "Control_Unit:Control_SM|state.READY" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[39] -to "Control_Unit:Control_SM|state.WAIT" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[34] -to "Control_Unit:Control_SM|ready" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[35] -to "Control_Unit:Control_SM|start" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[36] -to "Control_Unit:Control_SM|state.IDLE" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[37] -to "Control_Unit:Control_SM|state.MULTIPLY" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[38] -to "Control_Unit:Control_SM|state.READY" -section_id auto_signaltap_1
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[39] -to "Control_Unit:Control_SM|state.WAIT" -section_id auto_signaltap_1
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_DATA_BITS=40" -section_id auto_signaltap_1
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_BITS=40" -section_id auto_signaltap_1
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_BITS=40" -section_id auto_signaltap_1
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK=000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" -section_id auto_signaltap_1
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK_LENGTH=261" -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[18] -to auto_signaltap_1|gnd -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[29] -to auto_signaltap_1|gnd -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[30] -to auto_signaltap_1|gnd -section_id auto_signaltap_1
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[31] -to auto_signaltap_1|vcc -section_id auto_signaltap_1
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL=2" -section_id auto_signaltap_1
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ADVANCED_TRIGGER_ENTITY=basic,1,basic,1," -section_id auto_signaltap_1
+set_location_assignment PIN_AC25 -to Multiplier[8]
+set_location_assignment PIN_Y23 -to Multiplicand[8]
+set_global_assignment -name SLD_FILE db/stp2_auto_stripped.stp
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name SYSTEMVERILOG_FILE "../../Users/ie686481/Desktop/DyVerificacion-master/P1/tb/TOP_MOD_TB.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "../../Users/ie686481/Desktop/DyVerificacion-master/P1/src/TOP_MOD.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "../../Users/ie686481/Desktop/DyVerificacion-master/P1/src/SIGN.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "../../Users/ie686481/Desktop/DyVerificacion-master/P1/src/Register_Shifter.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "../../Users/ie686481/Desktop/DyVerificacion-master/P1/src/Parameter_Definitions.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "../../Users/ie686481/Desktop/DyVerificacion-master/P1/src/Multiplexor.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "../../Users/ie686481/Desktop/DyVerificacion-master/P1/src/definitions.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "../../Users/ie686481/Desktop/DyVerificacion-master/P1/src/debouncer.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "../../Users/ie686481/Desktop/DyVerificacion-master/P1/src/Counter.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "../../Users/ie686481/Desktop/DyVerificacion-master/P1/src/Control_Unit.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "../../Users/ie686481/Desktop/DyVerificacion-master/P1/src/binary_to_BCD_14B.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "../../Users/ie686481/Desktop/DyVerificacion-master/P1/src/BCD_7seg.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "../../Users/ie686481/Desktop/DyVerificacion-master/P1/src/Adder.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "../../Users/ie686481/Desktop/DyVerificacion-master/P1/src/add3.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "../../Users/ie686481/Desktop/DyVerificacion-master/P1/src/A2Comp_Multiplicands.sv"
+set_global_assignment -name SYSTEMVERILOG_FILE "../../Users/ie686481/Desktop/DyVerificacion-master/P1/src/A2Comp.sv"
+set_global_assignment -name SIGNALTAP_FILE Student_Robin/stp2.stp
+set_global_assignment -name QIP_FILE "../../Users/ie686481/Desktop/DyVerificacion-master/P1/src/pll.qip"
+set_global_assignment -name QIP_FILE PLL2.qip
