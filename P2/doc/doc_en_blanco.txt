@@ -1,0 +1,1 @@
+Para preservar la carpeta en git
