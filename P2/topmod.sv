@@ -10,7 +10,6 @@ module topmod
 	input load,
 	input op_t op,
 	
-	
 	output ready,	
 	output disp_seg_t ONES,
 	output disp_seg_t TENS,
