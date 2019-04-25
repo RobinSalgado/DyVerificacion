@@ -1,5 +1,3 @@
-
-
 module add3(in,out);
 
  input  [3:0] in; 
