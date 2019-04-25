@@ -15,38 +15,42 @@ module Multiplexor_R
 
 reg [15:0] Reg_Output;
 reg FLAG_temp;
-
-always_ff@(posedge clk or negedge rst)	
+//
+always_comb//ff@(posedge clk or negedge rst)	
 	begin
-		
-		if(!rst)
-			begin
-				Reg_Output = {15{1'b0}};
-				FLAG_temp = 0;
-			end
-		else
-			begin
-				if(Enable ==1)
-					begin
+//		
+//		if(!rst)
+//			begin
+//				Reg_Output = {15{1'b0}};
+//				FLAG_temp = 0;
+//			end
+//		else
+//			begin
+//				if(Enable ==1)
+//					begin
 						if (R >= 0)
 							begin
 								Reg_Output = REG1;
 								FLAG_temp = 1;
+								
 							end
 						else 
 							begin
 								Reg_Output = REG2;
 								FLAG_temp = 1;
+						
 							end
-					end
-				else
-					begin
-						Reg_Output = Reg_Output;
-						FLAG_temp = 0;
-					end
-			end
+//					end
+//				else
+//					begin
+//						Reg_Output = Reg_Output;
+//						FLAG_temp = 0;
+//					end
+//			end
 end
 	
 assign Output = Reg_Output;
 assign FLAG = FLAG_temp;
+//(R >= 0) ? in0 : 1’bz
+//assign      Output = ((R >= 0) & in0) | (sel & in1);
 endmodule

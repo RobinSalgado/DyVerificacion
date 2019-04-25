@@ -25,6 +25,9 @@ logic [15:0] WIRE_DS2_OUT;
 logic [15:0]WIRE_R;
 logic [15:0]WIRE_Q;
 
+logic [15:0] WIRE_R_TEMP;
+logic [15:0] WIRE_Q_TEMP;
+
 logic [15:0] WIRE_QS1_OUT;
 logic [15:0] WIRE_QS2_OUT;
 logic [15:0] WIRE_RS2_OUT;
@@ -60,8 +63,22 @@ SQRT DUT (
 	);
 
 	
+/*****************/
+SQRT_INIT SQRT_INIT_MOD
+(
+	// Input 	
+	.clk(clk),
+	.rst(rst),
+	.RDY(WIRE_RDY | WIRE_OVF),
+	.init(enable),
+	.R(WIRE_R_TEMP),
+	.Q(WIRE_Q_TEMP),
+	// Output 
+	.OUT_R(WIRE_R),
+	.OUT_Q(WIRE_Q)
 
-
+);
+/**********************/
 
 // SQRT_SM
 SM_SQRT	SM_MOD
@@ -174,7 +191,7 @@ Multiplexor_R Multiplexor_QMUX
 	. R(WIRE_R),
 	. Enable(MUX_EN1),
 	// Output 
-	. Output(WIRE_R),
+	. Output(WIRE_R_TEMP),
 	. FLAG(WIRE_MUX_FLAG)
 );
 //Multiplexer 2
@@ -185,10 +202,10 @@ Multiplexor_R Multiplexor_QMUX_2
 	. rst(rst),
 	. REG1(WIRE_QS1_or_1),
 	. REG2(WIRE_QS1_OUT),
-	. R(WIRE_R),
+	. R(WIRE_R_TEMP),
 	. Enable(MUX_EN2),
 	// Output 
-	. Output(WIRE_Q),
+	. Output(WIRE_Q_TEMP),
 	. FLAG(WIRE_MUX2_FLAG)
 );
 
@@ -236,7 +253,7 @@ substactor subtractor_MOD(
 	
 	
 	#200	enable = 1;
-	#400 enable = 0;
+	#5 enable = 0;
 	#50 rst = 0;
   end
   

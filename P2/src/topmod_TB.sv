@@ -1,68 +1,66 @@
 
-//import Parameter_Definitions::*;
+timeunit 1ps; //It specifies the time unit that all the delay will take in the simulation.
+timeprecision 1ps;// It specifies the resolution in the simulation.
 
-module topmod
-(
-	input clk,
-	input rst,
-	input [15:0]Data,
-	input start,
-	input load,
-	input [1:0]op,
-	
-	
-	output ready,	
-	output [6:0]ONES,
-	output [6:0]TENS,
-	output [6:0]HUNDREDS,
-	output [6:0]THOUSAND,
-	output [6:0]TEN_THOUSAND,
-	output sign,
-	output ERROR
 
-	//						output LED DISPLAY			// ESTO SE DEBE QUE VER EN EL DISPLAY DE 7 Segmentos
-);
+module topmod_TB;
+	//Inputs			
+	bit clk;
+	bit rst;										
+	logic [15:0]Data;
+	logic start;
+	logic load;
+	logic [1:0]op;
+	logic ready;
+	logic [6:0]ONES;
+	logic [6:0]TENS;
+	logic [6:0]HUNDREDS;
+	logic [6:0]THOUSAND;
+	logic [6:0]TEN_THOUSAND;
+	logic sign;
+	logic ERROR;
+	
 // WIRES
-wire [15:0] Data_X_wire;
-wire [15:0] Data_Y_wire;
+logic [15:0] Data_X_wire;
+logic [15:0] Data_Y_wire;
 
-wire WIRE_ERROR;
-wire WIRE_LOAD_EN_X;
-wire WIRE_LOAD_EN_Y;
-wire WIRE_OP_EN;
-wire WIRE_RDY_EN;
-wire WIRE_ERROR_EN;
-wire WIRE_VAL_EN;
-
-
-wire start_WIRE;
+logic WIRE_ERROR;
+logic WIRE_LOAD_EN_X;
+logic WIRE_LOAD_EN_Y;
+logic WIRE_OP_EN;
+logic WIRE_RDY_EN;
+logic WIRE_ERROR_EN;
+logic WIRE_VAL_EN;
 
 
-wire [15:0]SUM_wire;
-wire [15:0]SUB_wire;
-wire [15:0] SQRT_Result_wire;
-wire [15:0] SQRT_Residue_wire;
-wire SQRT_RDY_wire;
-wire [15:0]SQRT_TO_SUM_Y_Rest_wire;
-wire [15:0]SQRT_TO_REST_wire;
-wire [15:0]SQRT_TO_SUM_wire;
-
-wire [15:0] DIV_Result_wire;
-wire [15:0] DIV_Residue_wire;
-wire DIV_RDY_wire;
-wire [15:0] DIV_WIRE;
-wire [15:0] DIV_WIRE_A;
-
-wire [15:0] sum_part_1_wire;
-wire [15:0] rest_part_1_wire;
-wire [15:0] sum_part_2_wire;
+logic start_WIRE;
 
 
-wire [31:0] prod_wire;
-wire MULT_RDY_wire;
-wire [15:0] result_16_wire;
-wire [15:0] m_wire;
-wire [15:0] acc_wire;
+logic [15:0]SUM_wire;
+logic [15:0]SUB_wire;
+logic [15:0] SQRT_Result_wire;
+logic [15:0] SQRT_Residue_wire;
+logic SQRT_RDY_wire;
+logic [15:0]SQRT_TO_SUM_Y_Rest_wire;
+logic [15:0]SQRT_TO_REST_wire;
+logic [15:0]SQRT_TO_SUM_wire;
+
+logic [15:0] DIV_Result_wire;
+logic [15:0] DIV_Residue_wire;
+logic DIV_RDY_wire;
+logic [15:0] DIV_WIRE;
+logic [15:0] DIV_WIRE_A;
+
+logic [15:0] rest_part_1_wire;
+logic [15:0] sum_part_1_wire;
+logic [15:0] sum_part_2_wire;
+
+
+logic [31:0] prod_wire;
+logic MULT_RDY_wire;
+logic [15:0] result_16_wire;
+logic [15:0] m_wire;
+logic [15:0] acc_wire;
 
 wire [15:0] SQRT_result_wire;
 wire [15:0] DIV_result_wire;
@@ -75,16 +73,29 @@ wire [15:0] MULT_residue_wire;
 wire [15:0] Out_mux_residue_wire;
 wire [15:0] Data_result_wire;
 
-wire [3:0]ONES_WIRE;
-wire [3:0]TENS_WIRE;
-wire [3:0]HUNDREDS_WIRE;
-wire [3:0]THOUSAND_WIRE;
-wire [3:0]TEN_THOUSAND_WIRE;
+logic RDY_wire;
 
+topmod DUT
+(
+	.clk(clk),
+	.rst(rst),
+	.Data(Data),
+	.start(start),
+	.load(load),
+	.op(op),
+	
+	
+	.ready(ready),	
+	.ONES(ONES),
+	.TENS(TENS),
+	.HUNDREDS(HUNDREDS),
+	.THOUSAND(THOUSAND),
+	.TEN_THOUSAND(TEN_THOUSAND),
+	.sign(sign),
+	.ERROR(ERROR)
 
-wire RDY_wire;
-
-// ASSIGNS
+	//						output LED DISPLAY			// ESTO SE DEBE QUE VER EN EL DISPLAY DE 7 Segmentos
+);
 
 /************************/
 /*** Debouncer start  ***/
@@ -119,7 +130,6 @@ Control_Unit CU_MODULE
 	. error_OUT(WIRE_ERROR_EN),
 	. val(WIRE_VAL_EN)
 );
-/**********/
 
 //PIPO MODULES
 PIPO PIPO_X (
@@ -145,8 +155,6 @@ PIPO PIPO_RESULT (
 .DATA(Out_mux_result_wire),
 .OUT(Data_result_wire)
 );
-
-
 
 // VALIDATION
 
@@ -182,6 +190,7 @@ SQRT SQRT_MOD
 	);
 	
 //DIVISOR
+
 DIVISOR DIV_MOD
 (
 	//Inputs			
@@ -200,9 +209,10 @@ DIVISOR DIV_MOD
 	.DIVISO(DIV_WIRE),
 	
 	.Result(DIV_Result_wire),
-	.Residue(DIV_remainder_wire),//negated_shift_enable Tells you when it has finished so it stops the shifting
+	.Residue(DIV_Residue_wire),//negated_shift_enable Tells you when it has finished so it stops the shifting
 	.ready(DIV_RDY_wire)
 );
+
 //multiplicador
 
  Booth_Mult MULTIPLICATION_MOD
@@ -220,7 +230,7 @@ DIVISOR DIV_MOD
 	.acc(acc_wire),
 	.residue(MULT_Residue_wire)
 ); 
- 
+
 //sumador
 alu SUM_MOD(
 	.a(sum_part_1_wire),
@@ -240,7 +250,7 @@ alu REST_MOD(
 Multiplexor_3_1_15b   Mux_to_SUM_P1_MOD
 (
 	// Input 
-	.REG1(acc_wire),
+	.REG1(16'b0),
 	.REG2(SQRT_TO_SUM_Y_Rest_wire),
 	.REG3(DIV_WIRE_A),
 	.Selector(op),
@@ -253,7 +263,7 @@ Multiplexor_3_1_15b   Mux_to_SUM_P1_MOD
 Multiplexor_3_1_15b   Mux_to_SUM_P2_MOD
 (
 	// Input 
-	.REG1(m_wire),
+	.REG1(16'b0),
 	.REG2(SQRT_TO_SUM_wire),
 	.REG3(DIV_WIRE),
 	.Selector(op),
@@ -276,18 +286,6 @@ Multiplexor_3_1_15b   Mux_to_REST_MOD
 	.Output(rest_part_1_wire)
 );
 
-// SEÑAL DE FINALIZADO
-Multiplexor_3_1_15b   Mux_RDY_MOD
-(
-	// Input 
-	.REG1({15'b0,MULT_RDY_wire}),
-	.REG2({15'b0,DIV_RDY_wire}),
-	.REG3({15'b0,SQRT_RDY_wire}),
-	.Selector(op),
-	.Enable(1'b1),
-	// Output 
-	.Output(RDY_wire)
-);
 
  Multiplexer_With_Case Mux_results
  (
@@ -309,61 +307,35 @@ Multiplexor_3_1_15b   Mux_RDY_MOD
 	 .out(Out_mux_Residue_wire)
  );
 
- 
- 
-/*************/
-/**************/
-/***************/
 
-Binary_BCD_16  B_BCD(
-	.A(Data_result_wire),
-	.ONES(ONES_WIRE),
-	.TENS(TENS_WIRE),
-	.HUNDREDS(HUNDREDS_WIRE),
-	.THOUSAND(THOUSAND_WIRE),
-	.TEN_THOUSAND(TEN_THOUSAND_WIRE)
-	);
-	
-	
-BCD_7seg ones
-(
-	// Input Ports
-	.BCD_input(ONES_WIRE),
-	// Output Ports
-	.segmento_output(ONES_DISP_WIRE)
-);
 
-BCD_7seg tens
-(
-	// Input Ports
-	.BCD_input(TENS_WIRE),
-	// Output Ports
-	.segmento_output(TENS_DISP_WIRE)
-);
+/*********************************************************/
+initial // Clock generator
+  begin
+	 forever #2 clk = !clk;
+  end
 
-BCD_7seg hundreds
-(
-	// Input Ports
-	.BCD_input(HUNDREDS_WIRE),
-	// Output Ports
-	.segmento_output(HUNDREDS_DISP_WIRE)
-);
 
-BCD_7seg thousand
-(
-	// Input Ports
-	.BCD_input(THOUSAND_WIRE),
-	// Output Ports
-	.segmento_output(THOUSAND_DISP_WIRE)
-);
-BCD_7seg ten_thousand
-(
-	// Input Ports
-	.BCD_input(TEN_THOUSAND_WIRE),
-	// Output Ports
-	.segmento_output(TEN_THOUSAND_DISP_WIRE)
-);
+initial begin // multiplicand generator
+		rst = 0;
+		load = 0;
+		Data = 0;
+		start = 1;
+		op = 2;
+#10	rst = 1;
+#10	Data = 7;
+#20	load = 1;
+		
+#5		load = 0;
+#10	Data = 3;
+		
+#20	load = 1;
+#5		load = 0;
 
- 
+#20	start = 0;
+#5		start = 1;
 
- endmodule
+end
+
+  
+endmodule 

@@ -1,5 +1,7 @@
 // combinational module
 module Comb_Block_DIV (
+	input start_over,
+	input [15:0]Start_Data,
 	input clk,
 	input S,
 	input [15:0]Q,
@@ -16,7 +18,12 @@ reg	[31:0]	AQ_TEMP;
 reg				QN_TEMP;	
 always_ff @(posedge clk)
 begin
-	if(S != A_AFTER_OP[15])
+	if (start_over)
+		begin
+			QN_TEMP <= 1'b0;
+			AQ_TEMP <= {A_SHIFT1[31:15],Start_Data};
+		end
+	else if(S != A_AFTER_OP[15])
 		begin
 			if (A_AFTER_OP != A_REF)
 				begin

@@ -21,9 +21,11 @@ module Control_Unit
 
 enum logic [3:0]{ IDLE,
 						LOAD_X,
+						WAIT_Y,
 						LOAD_Y,
 						VALIDATE,
 						ERROR,
+						START_OP,
 						DO_OP,
 						READY,
 						WAIT
@@ -38,7 +40,7 @@ logic		EN_OP;
 logic		EN_RDY;
 
 						
-always
+always@(*)
 	begin
 		if(rst == 0)  							//Restart the whole system
 			state <= IDLE;	
@@ -52,6 +54,13 @@ always
 							state = state;
 					end
 					LOAD_X: begin
+						state = WAIT_Y;
+//						if(Load == 1)
+//							state = LOAD_Y;
+//						else
+//							state = state;
+					end
+					WAIT_Y: begin
 						if(Load == 1)
 							state = LOAD_Y;
 						else
@@ -70,7 +79,7 @@ always
 						if (error == 1)
 							state = ERROR;
 						else
-							state = DO_OP;
+							state = START_OP;
 					end
 					ERROR: begin
 						if (Load == 1)
@@ -78,8 +87,11 @@ always
 						else 
 							state = state;
 					end
+					START_OP: begin
+							state = DO_OP;
+					end
 					DO_OP: begin
-						if(done == 1)
+						if(done)
 							state = READY;
 						else
 							state = state;
@@ -120,7 +132,7 @@ begin
 						EN_Y = 0;
 						EN_VAL = 0;
 						EN_ERROR = 0;
-						EN_OP = 1;
+						EN_OP = 0;
 						EN_RDY = 0;
 					end
 					LOAD_X: begin
@@ -128,15 +140,23 @@ begin
 						EN_Y = 0;
 						EN_VAL = 0;
 						EN_ERROR = 0;
-						EN_OP = 1;
+						EN_OP = 0;
 						EN_RDY = 0;
 					end
+					WAIT_Y: begin
+						EN_X = 0;
+						EN_Y = 0;
+						EN_VAL = 0;
+						EN_ERROR = 0;
+						EN_OP = 0;
+						EN_RDY = 0;
+					end					
 					LOAD_Y: begin
 						EN_X = 0;
 						EN_Y = 1;
 						EN_VAL = 0;
 						EN_ERROR = 0;
-						EN_OP = 1;
+						EN_OP = 0;
 						EN_RDY = 0;
 					end
 					WAIT: begin
@@ -144,7 +164,7 @@ begin
 						EN_Y = 0;
 						EN_VAL = 0;
 						EN_ERROR = 0;
-						EN_OP = 1;
+						EN_OP = 0;
 						EN_RDY = 0;
 					end
 					VALIDATE: begin
@@ -152,7 +172,7 @@ begin
 						EN_Y = 0;
 						EN_VAL = 1;
 						EN_ERROR = 0;
-						EN_OP = 1;
+						EN_OP = 0;
 						EN_RDY = 0;
 					end
 					ERROR: begin
@@ -160,15 +180,23 @@ begin
 						EN_Y = 0;
 						EN_VAL = 0;
 						EN_ERROR = 1;
-						EN_OP = 1;
+						EN_OP = 0;
 						EN_RDY = 0;
 					end
-					DO_OP: begin
+					START_OP: begin
 						EN_X = 0;
 						EN_Y = 0;
 						EN_VAL = 0;
 						EN_ERROR = 0;
 						EN_OP = 1;
+						EN_RDY = 0;
+						end
+					DO_OP: begin
+						EN_X = 0;
+						EN_Y = 0;
+						EN_VAL = 0;
+						EN_ERROR = 0;
+						EN_OP = 0;
 						EN_RDY = 0;
 					end
 					READY: 
@@ -182,7 +210,12 @@ begin
 						end
 					default:
 						begin
-							state = state;
+							EN_X = 0;
+							EN_Y = 0;
+							EN_VAL = 0;
+							EN_ERROR = 0;
+							EN_OP = 0;
+							EN_RDY = 0;
 						end
 					endcase		
 			end

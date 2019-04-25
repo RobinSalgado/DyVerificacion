@@ -37,7 +37,7 @@ always @ (posedge clk or negedge rst)
 						else
 							begin
 								ovf <= 1;
-								count <= 9;	
+								count <= 15;	
 							end
 					end
 				 else

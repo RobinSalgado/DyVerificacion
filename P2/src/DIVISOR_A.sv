@@ -15,27 +15,27 @@ always_comb
 	begin
 		if (init)
 			begin
-				if (Condition < 0)
+				if (Condition[15])
 					begin
-						OUT_TEMP = 16'b1; 
-						OUT_REF_TEMP = 16'b1;
+						OUT_TEMP = {16{1'b1}}; 
+						OUT_REF_TEMP = {16{1'b1}};
 					end
 				else
 					begin
-						OUT_TEMP = 16'b0;
-						OUT_REF_TEMP = 16'b0;
+						OUT_TEMP = {16{1'b0}};
+						OUT_REF_TEMP = {16{1'b0}};
 					end
 			end
 		else
 			begin
 				OUT_TEMP <= A;
-				if (Condition < 0)
+				if (Condition [15])
 					begin
-						OUT_REF_TEMP <= 16'b1;
+						OUT_REF_TEMP <= {16{1'b1}};
 					end
 				else
 					begin
-					OUT_REF_TEMP <= 16'b0;
+						OUT_REF_TEMP <= {16{1'b0}};
 					end
 
 				

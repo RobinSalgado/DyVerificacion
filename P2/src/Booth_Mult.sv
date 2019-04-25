@@ -1,11 +1,12 @@
  
- module Booth_Mult(prod, ready, mc, mp, clk, rst, start,result_16b, sum, difference, m, acc); 
+ module Booth_Mult(prod, ready, mc, mp, clk, rst, start,result_16b, sum, difference, m, acc,residue); 
  
     input  logic [15:0] sum, difference;    // Results of the adder_subtracter module.
 	 input  clk,rst, start;				     // clock & start: flag for loading mc, mp.
 	 input  [15:0] mc, mp;             // Multiplicand, Multiplier, 16bits result.
 	 output [31:0] prod; 			     // result of the multiplication.
 	 output [15:0] result_16b;				//result limited to 16 bits.
+	 output [15:0] residue;
 	 output logic [15:0] m,acc; 			// Multiplicand and accumulator out to adder_subtractor.
 	 output ready; 						   // become 1 when 16 cycles have passed. 
 	  
@@ -71,6 +72,7 @@
 
 	 assign prod = {acc, q}; 
 	 assign result_16b = prod[15:0];
+	 assign residue = prod[31:16];
 	 assign ready = (count < 16);	// ready will tell when multiplication is ready,will be equal to 0 when count=16.
 	 
 	 endmodule 

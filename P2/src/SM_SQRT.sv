@@ -24,8 +24,8 @@ output				OP_READY
 enum logic [3:0]{ IDLE,
 						Count_1,
 						SHIFT,
-						Multiplex,
 						ADD_REST,
+						Multiplex,
 						Multiplex2,
 						READY
 						} state;  	//State Declaration
@@ -52,44 +52,40 @@ always_ff@(posedge clk or negedge rst)
 							state = state;
 					end
 					Count_1: begin
-						//if(OP_READY == 0)
-							state <= SHIFT;
-						//else
-						//	state = state;
+						if( COUNTER_FLAG  == 1)
+							state = READY;
+						else
+							state = state;
 					end
 					SHIFT: begin
 						if( COUNTER_FLAG  == 1)
 							state = READY;
-						//else if (SHIFTER_FLAG == 1)
+
 						else
 							state = ADD_REST;
-						//else
-						//	state = state;
+
 					end
 					Multiplex: begin
-						//if(MUX_FLAG == 1)
+
 							state = Multiplex2;
-						//else
-						//	state = state;
+
 					end
 					ADD_REST: begin
-						//if (ADDR_OR_REST_FLAG == 1)
+
 							state = Multiplex;
-						//else
-						//	state = state;
+
 					end
 					Multiplex2: begin
-					//	if (MUX_FLAG2 == 1)
+
 							state = Count_1;
-					//	else 
-					//		state = state;
+
 					end
 					READY: 
 						begin
 							if(EN == 1)
-								state = state;
+								state = Count_1;
 							else
-								state = IDLE;
+								state = state;
 						end
 					
 					
@@ -127,10 +123,10 @@ begin
 					end
 					Count_1: begin
 						EN_Counter = 1;
-						EN_SHIFT = 0;
-						EN_MUX = 0;
-						EN_MUX2 = 0;
-						EN_OP = 0;
+						EN_SHIFT = 1;
+						EN_MUX = 1;
+						EN_MUX2 = 1;
+						EN_OP = 1;
 						EN_RDY = 0;
 					end
 					SHIFT: begin

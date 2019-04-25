@@ -15,13 +15,22 @@ always_ff@(posedge clk or negedge rst) begin
         E_Temp  <= '0;
     else if (Enable)
 		 begin
-			if(OP == 2)	//division
+			if(OP == 1)	//division
 				begin
 					if( DATAY == 0)
 						E_Temp <= 1;
 					else
 						E_Temp <= 0;
 				end
+			else if (OP == 2) //SQRT
+				begin
+					if (DATAY < 0)
+						E_Temp <= 1;
+					else
+						E_Temp <= 0;
+				end
+			else
+				E_Temp <= 0;
 		 end
 end
 

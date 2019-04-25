@@ -147,6 +147,10 @@ Multiplexor_D Multiplexor_D3
 
 // combinational module
 Comb_Block_DIV COMB_DIV_MOD(
+	
+	.start_over(WIRE_COUNTER_FLAG),
+	. Start_Data(WIRE_DIVIDEND),
+		
 	. clk(clk),
 	. S(WIRE_AQ_S1[31]),
 	. Q(WIRE_Q1),
@@ -157,8 +161,39 @@ Comb_Block_DIV COMB_DIV_MOD(
 	. QN(WIRE_QN)
 );
 
+/*********/
+wire [15:0] WIRE_Q1_TEMP;
+wire [15:0] WIRE_A_TEMP;
+PIPO PIPO_FINAL_MOD_Q
+(
+	.clk(clk),
+	.rst(rst),
+	.LOAD(WIRE_COUNTER_FLAG),
+	.DATA(WIRE_Q1),
+	.OUT(WIRE_Q1_TEMP)
+);
+PIPO PIPO_FINAL_MOD_A
+(
+	.clk(clk),
+	.rst(rst),
+	.LOAD(WIRE_COUNTER_FLAG),
+	.DATA(WIRE_A),
+	.OUT(WIRE_A_TEMP)
+);
+/*************/
+//SIGN CORRECTION
+wire [15:0] WIRE_result;
+wire [15:0] WIRE_residue;
+SIGN_DIV SIGN_DIV_MOD(
+	.Divisor_Sign(WIRE_DIVISOR[15]),
+	.Dividend_Sign(WIRE_DIVIDEND[15]),
+	.Result_RAW(WIRE_Q1_TEMP),
+	.Residue_RAW(WIRE_A_TEMP),
+	.Result(WIRE_result),
+	.Residue(WIRE_residue)
+);
 
-
+/********/
 	/*********************************************************/
 	initial // Clock generator
 	  begin
@@ -180,15 +215,28 @@ Comb_Block_DIV COMB_DIV_MOD(
 			LOAD_Dividend = 1;
 	#5		LOAD_Dividend = 0;
 //cargamos divisor	
-	#10 	Data = 3;
+	#10 	Data = -3;
 			LOAD_Divisor = 1;
 	#5		LOAD_Divisor = 0;
 	#5		start  = 1;
 	#5		start  = 0;
 // Iniciamos la operacion
 	#400	enable = 1;
-	#400	enable = 0;
-	#50 	rst = 0;
+	
+	#400		enable = 0;
+	
+	#10 	Data = 7;
+			LOAD_Dividend = 1;
+	#5		LOAD_Dividend = 0;
+//cargamos divisor	
+	#10 	Data = -3;
+			LOAD_Divisor = 1;
+	#5		LOAD_Divisor = 0;
+	#100	start  = 1;
+	#5		start  = 0;
+	#400	enable = 1;
+	
+	#500 	rst = 0;
   end
   
   

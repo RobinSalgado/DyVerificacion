@@ -13,33 +13,33 @@ output [15:0]       Reg_Shift_Out
 
 logic [15:0]		 reg_S;		//shift reg
 
-always_ff@(posedge clk or negedge rst) 
+always_comb//ff@(posedge clk or negedge rst) 
 	begin
-		if(!rst)
-			begin
+//		if(!rst)
+//			begin
 
-				reg_S	= {16*{1'b0}};
+//				reg_S	= {16*{1'b0}};
 				
-			end
+//			end
 //		else if (start)	
 //			begin
 //				reg_S	<= DATA;
 //			end
-		else 
-			begin
-				if (enb)
-					begin
+//		else 
+//			begin
+//				if (enb == 1)
+//					begin
 						//reg_S <= DATA;
 						if(Direction_of_shift == 0)	//Shifts Rught
 							reg_S = DATA >> SHIFT_VALUE;//shift right
 						else
 							reg_S = DATA << SHIFT_VALUE;//shifts left
-					end
-				else
-					begin
-						reg_S	= reg_S;
-					end
-			end
+//					end
+//				else
+//					begin
+//						reg_S	= reg_S;
+//					end
+//			end
 	end
 
 assign Reg_Shift_Out = reg_S;
