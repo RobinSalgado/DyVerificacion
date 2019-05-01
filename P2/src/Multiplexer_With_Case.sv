@@ -1,6 +1,5 @@
 
 
-
 module Multiplexer_With_Case(in1, in2, in3, sel, out);
 parameter Word_Length = 16;
 input [1:0] sel;

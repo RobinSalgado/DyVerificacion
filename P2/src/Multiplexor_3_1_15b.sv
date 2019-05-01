@@ -16,7 +16,7 @@ logic [15:0] Reg_Output;
 always_comb
 	begin
 		Reg_Output = {15{1'b0}};
-		if(Enable ==1)
+		if(Enable)
 			begin
 				if (Selector == 0)
 					begin
@@ -31,7 +31,7 @@ always_comb
 						Reg_Output = REG3;
 					end
 				else
-						Reg_Output = {15{1'b0}};
+						Reg_Output = Reg_Output;
 			end
 		else
 			begin
