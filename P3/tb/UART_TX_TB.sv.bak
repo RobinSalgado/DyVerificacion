@@ -1,0 +1,96 @@
+// Coder:           Esteban González Moreno
+
+// Date:            07 Mayo 2019
+
+// Name:            UART_TX.sv
+
+// Description:     UART transmition top module
+
+import Definitions_Package::*;
+
+
+module UART_TX_TB;
+	//INPUT
+	bit clk;
+	bit rst;
+	
+	
+	logic[WORD_LEN-1:0] Data_To_Transmit;
+	logic 		LOAD;
+	logic 		TX_en;
+	logic 		tx;
+	
+	
+UART_TX	DUT(
+	.clk(clk),
+	.rst(rst),
+	.Data_To_Transmit(Data_To_Transmit),
+	.LOAD(LOAD),
+	.TX_en(TX_en),
+	.tx(tx)
+);
+
+
+wire LOAD_EN_wire;
+wire TRANSMIT_wire;
+wire Done_wire;
+
+UART_TX_SM UART_TX_MOD(
+	.clk(clk),
+	.rst(rst),
+	.LOAD(LOAD),
+	.DONE(Done_wire),
+	.LOAD_EN(LOAD_EN_wire),
+	.TRANSMIT_EN(TRANSMIT_wire)
+);
+
+	// Output Ports
+
+Counter TX_Count_MOD(
+	//inputs
+	.clk(clk),
+	.rst(rst),
+	.transmit(TRANSMIT_wire),
+	.count_EN(TX_en),
+	//outputs
+	.DONE(Done_wire)
+);
+
+piso PISO_MOD(
+	//inputs
+	.clk(clk),
+	.rst(rst),
+	.LOAD_EN(LOAD_EN_wire),
+	.TX_EN(TX_en),
+	.DATA(Data_To_Transmit),
+	//outputs
+	.TX(TX_wire)
+);
+
+/*********************************************************/
+initial // Clock generator
+  begin
+    forever #5 clk = !clk;
+  end
+  
+initial // Clock generator
+  begin
+    			#5		TX_en = 1;
+	end
+/*********************************************************/
+initial begin // reset generator
+	#0 	rst = 1;
+	#50 	rst = 0;
+	#10 	rst = 1;
+end
+
+/*********************************************************/
+initial begin // Variables
+	#0 	LOAD = 0;
+
+	#10 	Data_To_Transmit = 5;	
+	#100 	LOAD = 1;
+	#5 	LOAD = 0;
+end/*********************************************************/
+
+endmodule 

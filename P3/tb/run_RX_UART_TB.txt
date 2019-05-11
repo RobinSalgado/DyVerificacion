@@ -1,0 +1,14 @@
+if [file exists work] {vdel -all}
+
+vlib work
+
+vlog -f files_RX_UART.f
+
+onbreak {resume}
+
+set NoQuitOnFinish 1
+
+vsim -voptargs=+acc work.UART_RX_TB
+do wave_RX.do
+
+run 15000 ps

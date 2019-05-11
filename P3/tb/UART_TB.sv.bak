@@ -1,0 +1,83 @@
+// Coder:           Esteban González Moreno
+
+// Date:            09 Mayo 2019
+
+// Name:            UART.sv
+
+// Description:     UART top module
+
+import Definitions_Package::*;
+
+
+module UART_TB;
+	//INPUT
+	bit 				clk;
+	bit 				rst;
+	logic 			Transmit_Enable;
+	word_lenght_t 	Data_To_Transmit;
+	logic 			rx;
+	//OUTPUT
+	word_lenght_t 	Received_Data;
+	logic 			TX;
+
+UART DUT(
+	//Inputs
+	.clk(clk),
+	.rst(rst),
+	.Transmit_Enable(Transmit_Enable),
+	.Data_to_transmit(Data_to_transmit),	
+	.rx(rx),
+	//Outputs
+	.Received_Data(Received_Data),
+	.tx(tx)
+);
+
+wire RX_en_wire;
+wire TX_en_wire;
+wire tx_wire;
+word_lenght_t wire_DATA_REC;
+
+
+
+UART_TX uart_tx_MOD(
+	.clk(clk),
+	.rst(rst),
+	.Data_To_Transmit(Data_to_transmit),
+	.LOAD(transmit),
+	.TX_en(Transmit_Enable),
+	.TX(tx)
+);
+
+UART_RX uart_rx(
+	//inputs
+	.clk(clk),
+	.rst(rst),
+	.RX(rx),
+	.Received_DATA(wire_DATA_REC)
+);
+
+
+
+/*********************************************************/
+initial // Clock generator
+  begin
+    forever #1 clk = !clk;
+  end
+  
+/*********************************************************/
+initial begin // reset generator
+	#0 	rst = 1;
+	#50 	rst = 0;
+	#10 	rst = 1;
+end
+
+/*********************************************************/
+initial begin // Variables
+	#0 	TX_en = 0;
+
+	#10 	Data_To_Transmit = 5;	
+	#20000 	TX_en = 1;
+	#5 	TX_en = 0;
+end/*********************************************************/
+
+endmodule 
