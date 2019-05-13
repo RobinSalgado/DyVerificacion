@@ -60,7 +60,7 @@ always_ff@(posedge clk or negedge rst)
 				if(Enable_MAT)
 					begin
 						TEMP <= REC_DATA;
-						if(count1 >= Matrix_SIZE)
+						if(count1 >= Matrix_SIZE-1'b1)
 							begin
 								count1 <= 4'b0;
 								count2 <= count2 + 1'b1;
@@ -71,7 +71,7 @@ always_ff@(posedge clk or negedge rst)
 				else if(Enable_VEC)
 					begin
 						TEMP <= REC_DATA;
-						if(count1 >= Matrix_SIZE)
+						if(count1 >= Matrix_SIZE-1'b1)
 							count1 <= 4'b0;
 						else
 							count1 <= count1+1'b1;
