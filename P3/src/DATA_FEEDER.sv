@@ -19,10 +19,11 @@ module DATA_FEEDER(
 	input 			Enable_MAT,		//enable cruzado del SM  y la UART
 	input				Enable_VEC,
 	input 			CLEAR,
+	input				ENB_ASSIGN,
 	
 	output [7:0]	ADDR,
 	output [3:0]	RAM_Num,
-	output			DATA,
+	output [7:0]	DATA,
 	output [3:0] 	PIPO_VEC
 );
 	
@@ -53,33 +54,36 @@ always_ff@(posedge clk or negedge rst)
 			
 		else if(SIZE_M_EN)
 			Matrix_SIZE <= REC_DATA;
-			
-		else if(Enable_MAT)
+		
+		else if (ENB_ASSIGN)
 			begin
-				TEMP <= REC_DATA;
-				if(count1 >= Matrix_SIZE)
+				if(Enable_MAT)
 					begin
-						count1 <= 4'b0;
-						count2 <= count2 + 1'b1;
+						TEMP <= REC_DATA;
+						if(count1 >= Matrix_SIZE)
+							begin
+								count1 <= 4'b0;
+								count2 <= count2 + 1'b1;
+							end
+						else
+							count1 <= count1+1'b1;
 					end
+				else if(Enable_VEC)
+					begin
+						TEMP <= REC_DATA;
+						if(count1 >= Matrix_SIZE)
+							count1 <= 4'b0;
+						else
+							count1 <= count1+1'b1;
+					end	
 				else
-					count1 <= count1+1'b1;
-			end
-		else if(Enable_VEC)
-			begin
-				TEMP <= REC_DATA;
-				if(count1 >= Matrix_SIZE)
-					count1 <= 4'b0;
-				else
-					count1 <= count1+1'b1;
-			end	
-		else
-			begin
-				count1 <= count1;
-				count2 <= count2;
-				ADDR_TEMP <= ADDR_TEMP;
-				TEMP <= TEMP;
-				Matrix_SIZE <= Matrix_SIZE;
+					begin
+						count1 <= count1;
+						count2 <= count2;
+						ADDR_TEMP <= ADDR_TEMP;
+						TEMP <= TEMP;
+						Matrix_SIZE <= Matrix_SIZE;
+					end
 			end
 end
 

@@ -36,13 +36,16 @@ wire [7:0]	wire_DATA_FEED;
 
 wire EN_MAT;
 wire EN_VEC;
+
+wire [7:0] wire_REC_DATA;
 // DATA ASSIGNMENT MODULE
 DATA_FEEDER DATA_FEEDER_MOD(
 	.clk(clk),
 	.rst(rst),
 	
-	.SIZE_M_EN(wire_SIZE_EN),
-	.REC_DATA(REC_DATA),
+	.SIZE_M_EN(wire_SIZE_EN & ENABLE),
+	.REC_DATA(wire_REC_DATA),
+	.ENB_ASSIGN(wire_ASSIGN_EN & ENABLE),
 	.Enable_MAT(EN_MAT),
 	.Enable_VEC(EN_VEC),
 	.ADDR(wire_ADDR),
@@ -51,14 +54,23 @@ DATA_FEEDER DATA_FEEDER_MOD(
 	.PIPO_VEC(wire_VEC_N)
 );
 
+//DATA PIPO
 
+PIPO PIPO_MxV_MOD
+(
+	.clk(clk),
+	.rst(rst),
+	.LOAD(ENABLE),
+	.DATA(REC_DATA),
+	.OUT(wire_REC_DATA)
+);
 
 
 // MxV STATE MACHINE  NEED TO CHANGE THE NAME OF DATA_FEED_SM
 MxV_SM MxV_SM_MOD(
 	.clk(clk),
 	.rst(rst),
-	.REC_DATA(REC_DATA),
+	.REC_DATA(wire_REC_DATA),
 	.Enable(ENABLE),
 	.DONE_TRANSMITION(wire_TX_DONE),
 	.OP_DONE(wire_OP_DONE),

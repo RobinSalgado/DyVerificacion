@@ -37,6 +37,7 @@ reg EN_DL;
 reg VEC_FLAG;	
 reg MAT_FLAG;
 /** This can be put on the Definition package**/
+//reg [3:0] FEED_state2;
 enum logic [3:0]{ 		
 
 							FEED_IDLE,
@@ -59,7 +60,7 @@ enum logic [3:0]{
 							FEED_CLEAR
 								
 								
-						} FEED_state;  	//State Declaration
+						} FEED_state,FEED_state2;  	//State Declaration
 
 always@(*)	
 begin
@@ -187,6 +188,7 @@ begin
 								end
 						endcase						
 				end	
+			
 end
 
 always_ff@(posedge clk or negedge rst)
@@ -203,16 +205,10 @@ always_ff@(posedge clk or negedge rst)
 				case (FEED_state)
 					FEED_IDLE: 
 						begin
-							if(Enable)
-								begin
 									if(REC_DATA == 8'hFE)
 										FEED_state <= FEED_START;
 									else
 										FEED_state <= FEED_state;
-										
-								end
-							else
-								FEED_state <= FEED_state;
 						end
 					FEED_START:
 						begin
@@ -224,22 +220,9 @@ always_ff@(posedge clk or negedge rst)
 					FEED_F_LENGHT: 
 						begin
 							if(Enable)
-								begin
-									if (REC_DATA == 1)
-										FEED_state <= FEED_MAT_SIZE;
-									else if (REC_DATA == 2)
-										FEED_state <= FEED_RE_TRANSMIT;
-									else if (REC_DATA == 3)
-										FEED_state <= FEED_CAP_INIT;
-									else if (REC_DATA == 4)
-										FEED_state <= FEED_TRANSMIT_CMD;
-								end
+								FEED_state <= FEED_F_CMD;
 							else
 								FEED_state <= FEED_state;
-//							if(Enable)
-//								FEED_state <= FEED_F_CMD;
-//							else
-//								FEED_state <= FEED_state;
 						end
 					FEED_F_CMD:
 						begin
@@ -253,34 +236,25 @@ always_ff@(posedge clk or negedge rst)
 										FEED_state <= FEED_CAP_INIT;
 									else if (REC_DATA == 4)
 										FEED_state <= FEED_TRANSMIT_CMD;
-								end
+							
+									end
 							else
 								FEED_state <= FEED_state;
 						end
 					FEED_MAT_SIZE:
 						begin
-							if(Enable)
-								begin
 									if(REC_DATA == 8'hEF)
 										FEED_state <= FEED_IDLE;
 									else
 										FEED_state <= FEED_state;
-								end
-							else
-								FEED_state <= FEED_state;
 						end
 
 					FEED_RE_TRANSMIT:
 						begin
-							if(Enable)
-								begin
 									if(REC_DATA == 8'hEF)
 										FEED_state <= FEED_START_TRANSMITION;
 									else 
 										FEED_state <= FEED_state;
-								end
-							else 
-								FEED_state <= FEED_state;
 						end
 					FEED_START_TRANSMITION:
 						begin
@@ -291,22 +265,28 @@ always_ff@(posedge clk or negedge rst)
 						end
 					FEED_CAP_INIT:
 						begin
-							if(Enable)
-								begin
 									if(REC_DATA == 8'hEF)
-										FEED_state <= FEED_IDLE;
+										begin
+											FEED_state <= FEED_IDLE;
+											
+										end
 									else 
 										FEED_state <= FEED_state;
-								end
 						end
 					FEED_TRANSMIT_CMD: //Primero captura en el array de RAMS, depues en los pipo del vector
 						begin
-							if(Enable)
-								begin
-									if(MAT_FLAG)
+							
+								
+									if(!MAT_FLAG)
 										begin
-											VEC_FLAG <= 1;	
-											MAT_FLAG <= 0;
+											if(!VEC_FLAG)
+												VEC_FLAG <= 0;	
+												MAT_FLAG <= 1;
+										end
+									else if (MAT_FLAG)
+										begin
+											
+											
 											if(REC_DATA == 8'hEF)
 												FEED_state <= FEED_CLEAR;
 											else 
@@ -314,25 +294,30 @@ always_ff@(posedge clk or negedge rst)
 										end
 									else if (VEC_FLAG)
 										begin
-											VEC_FLAG <= 0;	
-											MAT_FLAG <= 1;
+											
 											if(REC_DATA == 8'hEF)
 												FEED_state <= FEED_OPERATION;
 											else 
 												FEED_state <= FEED_state;
 											end
-								end
+								
 						end
 						
 						
 					FEED_CLEAR:
 						begin
+							VEC_FLAG <= 1;	
+							MAT_FLAG <= 0;
 							FEED_state <= FEED_IDLE;
 						end
 					FEED_OPERATION:
 						begin
 							if(OP_DONE)
-								FEED_state <= FEED_START_TRANSMITION;
+								begin
+									VEC_FLAG <= 0;	
+									MAT_FLAG <= 1;
+									FEED_state <= FEED_START_TRANSMITION;
+								end
 							else 
 								FEED_state <= FEED_state;
 						end
