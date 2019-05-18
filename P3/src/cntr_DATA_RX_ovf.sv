@@ -1,4 +1,4 @@
-// Coders:           Esteban González Moreno, Robin Moises Salgado
+// Coder:           Esteban González Moreno
 
 // Date:            08 Mayo 2019
 

@@ -1,4 +1,4 @@
-// Coders:           Esteban González Moreno, Robin Moises Salgado
+// Coder:           Esteban González Moreno
 
 // Date:            07 Mayo 2019
 
@@ -22,12 +22,14 @@ module UART(
 	input  	rx,
 	//Outputs
 	output	word_lenght_t Received_Data,
+	output 	DONE,
 	output 	tx
 );
 
 wire RX_en_wire;
 wire TX_en_wire;
 wire tx_wire;
+wire wire_DONE;
 word_lenght_t wire_DATA_REC;
 
 
@@ -46,10 +48,12 @@ UART_RX uart_rx(
 	.clk(clk),
 	.rst(rst),
 	.RX(rx),
+	.Done(wire_DONE),
 	.Received_DATA(wire_DATA_REC)
 );
 
 	assign	Received_Data = wire_DATA_REC;
 	assign 	tx = tx_wire;
+	assign 	DONE = wire_DONE;
 
 endmodule

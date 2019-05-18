@@ -79,12 +79,20 @@ always_ff@(posedge clk or negedge rst)
 				else
 					begin
 						count1 <= count1;
-						count2 <= count2;
+						count2 <= 4'b0;
 						ADDR_TEMP <= ADDR_TEMP;
 						TEMP <= TEMP;
 						Matrix_SIZE <= Matrix_SIZE;
 					end
 			end
+		else
+					begin
+						count1 <= count1;
+						count2 <= 4'b0;
+						ADDR_TEMP <= ADDR_TEMP;
+						TEMP <= TEMP;
+						Matrix_SIZE <= Matrix_SIZE;
+					end
 end
 
 

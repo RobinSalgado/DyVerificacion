@@ -10,24 +10,25 @@
 //`ifndef DP_DC_RAM_SV
 //   `define DP_DC_RAM_SV
 	
-	
+
+import Definitions_Package::*;
 module DC_RAM
 (
 	input clk_A, 
 	input clk_B,
-	input [7:0] Data_IN,
-	input [3:0]	ADDR,
+	input word_lenght_t Data_IN,
+	input ADDR_lenght_t	ADDR,
 	input	ENABLE_W,
 	input	ENABLE_R,
 	
-	output [7:0] DATA_OUT
+	output word_lenght_t DATA_OUT
 );
 
-reg [7:0] temp;
+word_lenght_t temp;
 	// Declare the RAM variable
-	reg [7:0] ram[3:0];
+word_lenght_t ram[ADDR_LENGHT:0] ;
 	
-	always @ (posedge clk_A)
+always @ (posedge clk_A)
 	begin
 		// Write
 		if (ENABLE_W)
@@ -39,6 +40,8 @@ reg [7:0] temp;
 		// Read 
 		if (ENABLE_R)
 			temp <= ram[ADDR];
+		else
+			temp <= 8'b0;
 	end
 
 	assign DATA_OUT = temp;

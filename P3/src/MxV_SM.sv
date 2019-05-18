@@ -54,6 +54,7 @@ enum logic [3:0]{
 							FEED_CAP_INIT,							
 							
 							FEED_TRANSMIT_CMD,
+							FEED_VEC_CMD,
 							
 							FEED_OPERATION,
 	
@@ -85,7 +86,10 @@ begin
 									EN_OPERATION <= 0;
 									EN_TRANSMIT <= 0;
 									EN_CLEAR <= 0;
-									EN_DL <= 0;									
+									EN_DL <= 0;		
+									VEC_FLAG <= 0;	
+									MAT_FLAG <= 0;
+							
 								end
 							FEED_START:
 								begin
@@ -94,7 +98,10 @@ begin
 									EN_OPERATION <= 0;
 									EN_TRANSMIT <= 0;
 									EN_CLEAR <= 0;
-									EN_DL <= 0;			
+									EN_DL <= 0;		
+									VEC_FLAG <= 0;	
+									MAT_FLAG <= 0;
+	
 								end
 							FEED_F_LENGHT: 
 								begin
@@ -104,6 +111,9 @@ begin
 									EN_TRANSMIT <= 0;
 									EN_CLEAR <= 0;
 									EN_DL <= 1;
+									VEC_FLAG <= 0;	
+									MAT_FLAG <= 0;
+
 								end
 							FEED_F_CMD:
 								begin
@@ -113,6 +123,9 @@ begin
 									EN_TRANSMIT <= 0;
 									EN_CLEAR <= 0;
 									EN_DL <= 1;
+									VEC_FLAG <= 0;	
+									MAT_FLAG <= 0;
+
 								end
 							FEED_MAT_SIZE: 
 								begin
@@ -122,6 +135,9 @@ begin
 									EN_TRANSMIT <= 0;
 									EN_CLEAR <= 0;
 									EN_DL <= 0;
+									VEC_FLAG <= 0;	
+									MAT_FLAG <= 0;
+
 								end	
 							FEED_RE_TRANSMIT: 
 								begin
@@ -131,6 +147,10 @@ begin
 									EN_TRANSMIT <= 0;
 									EN_CLEAR <= 0;
 									EN_DL <= 0;
+									VEC_FLAG <= 0;	
+									MAT_FLAG <= 0;
+								
+	
 								end
 							FEED_START_TRANSMITION:
 								begin
@@ -140,6 +160,9 @@ begin
 									EN_TRANSMIT <= 1;
 									EN_CLEAR <= 0;
 									EN_DL <= 0;
+									VEC_FLAG <= 0;	
+									MAT_FLAG <= 0;
+
 								end
 							FEED_CAP_INIT:
 								begin
@@ -149,6 +172,9 @@ begin
 									EN_TRANSMIT <= 0;
 									EN_CLEAR <= 0;
 									EN_DL <= 0;
+									VEC_FLAG <= 0;	
+									MAT_FLAG <= 0;
+
 								end
 							FEED_TRANSMIT_CMD:
 								begin
@@ -158,6 +184,20 @@ begin
 									EN_TRANSMIT <= 0;
 									EN_CLEAR <= 0;
 									EN_DL <= 0;
+									VEC_FLAG <= 0;	
+									MAT_FLAG <= 1;
+
+								end
+							FEED_VEC_CMD:
+								begin
+									EN_MAT_SIZE <= 0;
+									EN_DATA_ASSIGN <= 1;
+									EN_OPERATION <= 0;
+									EN_TRANSMIT <= 0;
+									EN_CLEAR <= 0;
+									EN_DL <= 0;
+									VEC_FLAG <= 1;	
+									MAT_FLAG <= 0;
 								end
 							FEED_OPERATION:
 								begin
@@ -167,6 +207,9 @@ begin
 									EN_TRANSMIT <= 0;
 									EN_CLEAR <= 0;
 									EN_DL <= 0;
+									VEC_FLAG <= 0;	
+									MAT_FLAG <= 0;
+
 								end	
 							FEED_CLEAR:
 								begin
@@ -176,6 +219,9 @@ begin
 									EN_TRANSMIT <= 0;
 									EN_CLEAR <= 1;
 									EN_DL <= 0;
+									VEC_FLAG <= 0;	
+									MAT_FLAG <= 0;
+
 								end
 							default:
 								begin
@@ -185,6 +231,9 @@ begin
 									EN_TRANSMIT <= 0;
 									EN_CLEAR <= 0;
 									EN_DL <= 0;
+									VEC_FLAG <= 0;	
+									MAT_FLAG <= 0;
+
 								end
 						endcase						
 				end	
@@ -196,8 +245,7 @@ always_ff@(posedge clk or negedge rst)
 		if(!rst)  							//Restart the whole system
 			begin
 				FEED_state <= FEED_IDLE;
-				VEC_FLAG <= 0;	
-				MAT_FLAG <= 0;
+				
 
 			end
 		else 				//si hubo transmición de datos
@@ -236,7 +284,8 @@ always_ff@(posedge clk or negedge rst)
 										FEED_state <= FEED_CAP_INIT;
 									else if (REC_DATA == 4)
 										FEED_state <= FEED_TRANSMIT_CMD;
-							
+									else if (REC_DATA == 5)
+										FEED_state <= FEED_VEC_CMD;
 									end
 							else
 								FEED_state <= FEED_state;
@@ -274,48 +323,31 @@ always_ff@(posedge clk or negedge rst)
 										FEED_state <= FEED_state;
 						end
 					FEED_TRANSMIT_CMD: //Primero captura en el array de RAMS, depues en los pipo del vector
-						begin
-							
-								
-									if(!MAT_FLAG)
-										begin
-											if(!VEC_FLAG)
-												VEC_FLAG <= 0;	
-												MAT_FLAG <= 1;
-										end
-									else if (MAT_FLAG)
-										begin
-											
-											
-											if(REC_DATA == 8'hEF)
-												FEED_state <= FEED_CLEAR;
-											else 
-												FEED_state <= FEED_state;
-										end
-									else if (VEC_FLAG)
-										begin
-											
-											if(REC_DATA == 8'hEF)
-												FEED_state <= FEED_OPERATION;
-											else 
-												FEED_state <= FEED_state;
-											end
-								
+						begin								
+							if(REC_DATA == 8'hEF)
+								FEED_state <= FEED_CLEAR;
+							else 
+								FEED_state <= FEED_state;
+				
 						end
-						
+					FEED_VEC_CMD:
+						begin
+							if(REC_DATA == 8'hEF)
+								FEED_state <= FEED_OPERATION;
+							else 
+								FEED_state <= FEED_state;
+							
+						end
 						
 					FEED_CLEAR:
 						begin
-							VEC_FLAG <= 1;	
-							MAT_FLAG <= 0;
 							FEED_state <= FEED_IDLE;
 						end
 					FEED_OPERATION:
 						begin
 							if(OP_DONE)
 								begin
-									VEC_FLAG <= 0;	
-									MAT_FLAG <= 1;
+									
 									FEED_state <= FEED_START_TRANSMITION;
 								end
 							else 

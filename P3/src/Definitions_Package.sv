@@ -1,4 +1,4 @@
-// Coders:           Esteban González Moreno, Robin Moises Salgado
+// Coder:           Esteban González Moreno
 
 // Date:            07 Mayo 2019
 
@@ -11,6 +11,9 @@ package Definitions_Package;
 
 	 localparam  	W_WORD_LENGHT  = 8;
  	 typedef logic [W_WORD_LENGHT-1:0] 	  word_lenght_t; 
+	 
+	 localparam  	ADDR_LENGHT  = 4;
+ 	 typedef logic [ADDR_LENGHT-1:0] 	  ADDR_lenght_t; 
 
 /**** FOR UART*****/
 	 localparam  	W_Empty_TX_REG  = 8'b1;

@@ -1,4 +1,4 @@
-// Coders:           Esteban González Moreno, Robin Moises Salgado
+// Coder:           Esteban González Moreno
 
 // Date:            08 Mayo 2019
 
@@ -92,6 +92,6 @@ SIPO_RX SIPO_RX_MOD(
 
 
 
-assign Received_DATA = wire_Received_DATA[16:1];
+assign Received_DATA = wire_Received_DATA[8:1];
 assign Done = Done_wire;
 endmodule

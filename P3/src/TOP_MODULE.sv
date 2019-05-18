@@ -1,4 +1,4 @@
-// Coders:           Esteban González Moreno, Robin Moises Salgado
+// Coder:           Esteban González Moreno
 
 // Date:            07 Mayo 2019
 
@@ -25,7 +25,7 @@ wire wire_TX_ENABLE;
 word_lenght_t wire_MxV_OUTPUT;					//wl is [15:0]
 word_lenght_t wire_Rec_Data;
 wire wire_TX;
-wire wire_DONE);
+wire wire_DONE;
 /*** UART MODULE ***/
 UART  UART_MODULE
 (
@@ -47,6 +47,7 @@ MxV MxV_MODULE
 	.rst(rst),
 	.REC_DATA(wire_Rec_Data),
 	.REC_DONE(wire_DONE),
+	.ENABLE(wire_DONE),
 	.DATA_OUT(wire_MxV_OUTPUT),
 );
 
