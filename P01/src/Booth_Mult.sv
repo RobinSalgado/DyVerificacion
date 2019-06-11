@@ -17,35 +17,37 @@ import definitions_pkg::*;
 	 int8_t q; 								  // q:stores Multiplicand, 											    
 	 logic qn; 							     // LSB of the array.
 	 
-	 always_ff @(posedge clk or posedge rst ) begin
+	 
+	 
+	 //or posedge i_clr
+	 always_ff @( posedge clk or negedge rst or posedge i_clr ) begin
 
+	  if ( !rst )
+			begin
+		     qn     <=   '0;						  // Initialize LSB to 0.
+			  o_acc  <=   '0; 					     // Initialize acumulator to 0.
+			  o_prod <=   '0;
+			  q      <=   '0;						  // Load of Multiplier.
+			  o_m    <=   '0;
+	   end
+
+	else if ( i_clr )
+		  begin
 		  
-	 if ( rst )
-	 begin
-		  qn    <=   '0;						  // Initialize LSB to 0.
-		  o_acc <=   '0; 					     // Initialize acumulator to 0.
-		   
-	  end
-	  
-	  	  else begin 
-		  
-	 if ( i_clr )
-	 begin
-		  qn    <=   '0;						  // Initialize LSB to 0.
-		  o_acc <=   '0; 					     // Initialize acumulator to 0.
-		   
-	  end
-		  
-		  
-	   q<= i_mp;						  // Load of Multiplier.
+           qn     <=   '0;						  // Initialize LSB to 0.
+			  o_acc  <=   '0; 					     // Initialize acumulator to 0.
+			  o_prod <=   '0;
+			  q      <=   '0;						  // Load of Multiplier.
+			  o_m    <=   '0;
+	    end
 		
-		if ( i_enb ) 
+     else begin 
+	  q<= i_mp;						  // Load of Multiplier.
+	  
+	  if ( i_enb ) 
 			begin 
-				  
-
-			
-//			else begin 
-			 o_m   <= i_mc; 					  // Load of Multiplicand.
+	  
+	  o_m   <= i_mc; 					  // Load of Multiplicand.
 			 
 			
 	 if ( !i_ovf ) begin
@@ -54,14 +56,14 @@ import definitions_pkg::*;
 		 2'b0_1 : { o_acc, q, qn} <= { i_sum [7], i_sum , q}; 	      // acc + m & then SR.
 		 2'b1_0 : { o_acc, q, qn} <= { i_diff[7], i_diff, q};      // acc - m & then SR. 
 	    default: { o_acc, q, qn} <= { o_acc [7], o_acc , q}; 	   // SR acc without sum or substract in case (00 or 11).
-	 endcase 
+	 endcase
+	 
+	 o_prod <= {o_acc, q};
 	 
 				end  // end of ovf
 			end     // end of enable 
 		 end       // end of else 
 	 end          // end of alwyas_ff
-//	 end
-	
-	 assign o_prod = {o_acc, q}; 
+	 
 	 
 	 endmodule 

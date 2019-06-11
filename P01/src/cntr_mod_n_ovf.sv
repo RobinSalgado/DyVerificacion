@@ -11,13 +11,14 @@ module cntr_mod_n_ovf
 input                   clk,
 input                   rst,
 input                   i_enb,
+input 						i_clr,
 output  logic   o_ovf,
 output  logic [3:0]   o_count
 );
 
 /********* PKG **************/
 
-localparam MAXCNT   	= 8;
+localparam MAXCNT   	= 9;
 
 
 typedef struct {
@@ -30,10 +31,16 @@ logic       ovf;
 	
 cntr_t cntr;
 
-always_ff@(posedge clk, posedge rst) begin: counter
-    if (rst)
+always_ff@(posedge clk, negedge rst, posedge i_clr) begin: counter
+
+    if ( !rst )
         cntr.count    <=  '0;
+	
+    else if ( i_clr )
+	 cntr.count    <=  '0;
+	 
     else if (i_enb)
+	 
         if (cntr.count >= MAXCNT)
             cntr.count    <= '0;
         else

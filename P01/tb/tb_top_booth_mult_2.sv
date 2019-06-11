@@ -14,9 +14,9 @@ logic rdy, rst, enb, o_clr;
  int8_t     Multiplier,Multiplicand;
  segment_e  o_ones, o_tens;
  segment_e  o_hundreds, o_thousands;
- cnt_t      counter;
+ cnt_t      counter, o_cnt_clr;
  state_e    Edo_Act;
- segment_e  o_sign; 
+ segment_e  o_sign ; 
 
  Top_Booth_Mult_2  topMOd(
 
@@ -39,30 +39,58 @@ logic rdy, rst, enb, o_clr;
   .o_Edo_Act(Edo_Act),
   .o_sign (o_sign),
   .o_clr(o_clr),
+  .o_cnt_clr(o_cnt_clr),
   .o_enb(enb)
 	);
    
 
-	
+	 
 
  
   
   initial begin // reset generator
+	  
 	  clk   = 0;
 	  start = 1;
-	  rst   = 1;
+	  rst   = 0;
 	
 	  Multiplier		= -128;
 	  Multiplicand    = 127;
 	  
-	 
-	  
-	  
-	  #2 rst = 0;
-	 
+	  #2 rst = 1;
 	  #2 start = 0;
 	
-	 	 
+	  
+	  
+	  Multiplier		= 10;
+	  Multiplicand    = 10;
+	  
+	  # 25 start = 0;
+	   start = 1; 
+	  
+	  
+
+	  
+	   #2 start = 0;
+	  
+	  
+	  
+	  
+	  /*******	WORKING WITH RST ********/
+	  
+	    
+//	  # 25 start = 1;
+//	  # 2 rst   = 0;
+//
+//	  
+//	  Multiplier		= 10;
+//	  Multiplicand  = 10;		
+//	  #2 rst = 1;
+//	  #2 start = 0;
+//	  
+	
+	  /*******	WORKING WITH RST ********/
+
 	
 end/*********************************************************/
 

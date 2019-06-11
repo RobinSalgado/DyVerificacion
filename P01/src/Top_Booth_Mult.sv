@@ -16,6 +16,7 @@ import definitions_pkg::*;
  output segment_e  o_hundreds, o_thousands,
  output segment_e  o_sign,
  output cnt_t      o_cnt,
+ output cnt_t      o_cnt_clr,
  output state_e    o_Edo_Act
  
  );
@@ -27,7 +28,7 @@ import definitions_pkg::*;
 	int8_t  diff_w, sum_w, m_w,acc_w   ;
 	int16_t prod_w, tws_cmp_prod_w     ;
 	logic   rdy_w, enb_w, ovf_w ;
-	logic   clr_w;
+	logic   clr_w, enb_cnt_w;
 
 	bcd_t ones_w;
 	bcd_t tens_w;
@@ -45,7 +46,7 @@ import definitions_pkg::*;
 	int8_t tws_cmp_mp_w; // wire for 2's comp of multiplier.
 	int8_t tws_cmp_mc_w; // wire for 2's comp of multiplicand.
 	
-	cnt_t cnt_w;
+	cnt_t cnt_w, cnt_clr_w	;
  
  
  twos_comp TWS_CMP_MC (
@@ -72,6 +73,7 @@ twos_comp_out TWS_CMP_PROD (
  
   .clk    (    clk       ),
   .rst    (    rst       ),
+  .i_clr  (    clr_w     ),
   .i_enb  (    enb_w     ),
   .i_ovf  (    ovf_w     ),
   .i_mc   ( tws_cmp_mc_w ), 
@@ -88,15 +90,16 @@ twos_comp_out TWS_CMP_PROD (
   
   control_unit FSM 
   (
-	 .clk     (   clk   ),
-    .rst     (   rst   ),
-	 .i_start ( i_start ),
-	 .i_ovf   ( ovf_w   ),
-	 .i_cnt   ( cnt_w   ),
-	 .o_rdy   ( rdy_w   ),
-	 .o_enb   ( enb_w   ),
-    .o_clr   ( clr_w   ),
-	 .Edo_Act ( o_Edo_Act ) 
+	 .clk       (   clk     ),
+    .rst       (   rst     ),
+	 .i_start   ( i_start   ),
+	 .i_ovf     ( ovf_w     ),
+	 .i_cnt     ( cnt_clr_w	),
+	 .o_rdy     ( rdy_w     ),
+	 .o_enb     ( enb_w     ),
+    .o_clr     ( clr_w     ),
+	 .o_enb_cnt ( enb_cnt_w ),
+	 .Edo_Act   ( o_Edo_Act ) 
   );
   
   cntr_mod_n_ovf CNT (
@@ -104,9 +107,23 @@ twos_comp_out TWS_CMP_PROD (
    .clk     (  clk  ),
    .rst     (  rst  ),
    .i_enb   ( enb_w ),
+	.i_clr   ( clr_w ),
  	.o_ovf   ( ovf_w ),
    .o_count ( cnt_w )
   );
+	 
+	   cntr_mod_n_ovf CNT_CLR (
+  
+   .clk     (  clk      ),
+   .rst     (  rst      ),
+   .i_enb   ( enb_cnt_w ),
+	.i_clr   (           ),
+ 	.o_ovf   (           ),
+   .o_count ( cnt_clr_w )
+  );
+	 
+	 
+	 
 	 
   //sumador
  alu SUM_MOD 
@@ -180,6 +197,7 @@ bcd2segm SIGN
 		assign o_cnt     =   cnt_w;
 		assign o_enb     =   enb_w;
 		assign o_clr     =   clr_w;
+		assign o_cnt_clr =   cnt_clr_w;
 		
 
 endmodule 
