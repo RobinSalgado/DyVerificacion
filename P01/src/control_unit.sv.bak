@@ -92,9 +92,13 @@ end
 				o_clr_cnt = U_ZERO ;
 			
 
-				if ( i_ovf ) 
-				o_rdy  = U_ONE  ;
-							 
+//				if ( i_ovf ) begin
+//				
+//				o_clr  = U_ONE  ;
+//				o_enb  = U_ZERO ;
+//				o_rdy  = U_ONE  ;
+//				
+//				end				 
 	              end 
 	
 			READY: begin 
@@ -107,7 +111,9 @@ end
 				o_clr_cnt = U_ZERO ;
 				
 			
-				end		
+				end
+				
+				
 					  
 			CLEAR: begin 
 		        

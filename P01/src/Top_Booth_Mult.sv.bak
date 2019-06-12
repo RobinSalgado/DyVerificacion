@@ -48,19 +48,19 @@ twos_comp_out TWS_CMP_PROD (
  
  Booth_Mult mult (
  
-  .clk    (    clk       ),
-  .rst    (    rst       ),
-  .i_clr  (    clr_w     ),
-  .i_enb  (    enb_w     ),
-  .i_ovf  (    ovf_w     ),
+  .clk    (    clk     ),
+  .rst    (    rst     ),
+  .i_clr  (    clr_w   ),
+  .i_enb  (    enb_w   ),
+  .i_ovf  (    ovf_w   ),
   .i_mc   ( Multiplicand ), 
-  .i_mp   (  Multiplier  ), 
-  .i_sum  (    sum_w     ), 
-  .i_diff (    diff_w    ),
-  .i_cnt  (    cnt_w     ),
-  .o_m    (    m_w       ), 
-  .o_acc  (    acc_w     ),
-  .o_prod (    prod_w    )
+  .i_mp   ( Multiplier  ), 
+  .i_sum  (    sum_w   ), 
+  .i_diff (    diff_w  ),
+  .i_cnt  (    cnt_w   ),
+  .o_m    (    m_w     ), 
+  .o_acc  (    acc_w   ),
+  .o_prod (    prod_w  )
  ); 
   
   
