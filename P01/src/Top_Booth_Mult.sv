@@ -3,44 +3,36 @@ import definitions_pkg::*;
 
  module Top_Booth_Mult_2(
  
- input             clk, rst,
- input  int8_t     i_multiplier, 
- input  int8_t     i_multiplicand, 
- input             i_start,
- output            o_rdy,
- output 				 o_enb,
- output            o_clr,
- output int16_t    o_product,
- output int8_t     o_sum, o_diff, o_m, o_acc, 
- output segment_e  o_ones, o_tens,
- output segment_e  o_hundreds, o_thousands,
- output segment_e  o_sign,
- output cnt_t      o_cnt,
- output cnt_t      o_cnt_clr,
+ input             clk, rst                   ,
+ input  int8_t     i_multiplier               , 
+ input  int8_t     i_multiplicand             , 
+ input             i_start                    ,
+ output            o_rdy                      ,
+ output 				 o_enb                      ,
+ output            o_clr                      ,
+ output int16_t    o_product                  ,
+ output int8_t     o_sum , o_diff, o_m, o_acc , 
+ output segment_e  o_ones, o_tens             ,
+ output segment_e  o_hundreds, o_thousands    ,
+ output segment_e  o_sign                     ,
+ output cnt_t      o_cnt                      ,
+ output cnt_t      o_cnt_clr                  ,
  output state_e    o_Edo_Act
  
  );
  
  
+	int8_t  diff_w, sum_w, m_w,acc_w    ;
+	int16_t prod_w, tws_cmp_prod_w      ;
+	logic   rdy_w, enb_w, ovf_w         ;
+	logic   clr_w, enb_cnt_w, clr_cnt_w ;
 
-
- 
-	int8_t  diff_w, sum_w, m_w,acc_w   ;
-	int16_t prod_w, tws_cmp_prod_w     ;
-	logic   rdy_w, enb_w, ovf_w ;
-	logic   clr_w, enb_cnt_w;
-
-	bcd_t ones_w;
-	bcd_t tens_w;
-	bcd_t hundreds_w;
-	bcd_t thousand_w;
-
-	segment_e sign_w;
-	segment_e sign_disp_w;
-	segment_e ones_disp_w;
-	segment_e tens_disp_w;
-	segment_e hundreds_disp_w;
-	segment_e thousand_disp_w;
+	bcd_t sign_w     ;
+	bcd_t ones_w     ;
+	bcd_t tens_w     ;
+	bcd_t hundreds_w ;
+	bcd_t thousand_w ;
+	
 	
 
 	int8_t tws_cmp_mp_w; // wire for 2's comp of multiplier.
@@ -99,10 +91,13 @@ twos_comp_out TWS_CMP_PROD (
 	 .o_enb     ( enb_w     ),
     .o_clr     ( clr_w     ),
 	 .o_enb_cnt ( enb_cnt_w ),
+	 .o_clr_cnt ( clr_cnt_w ),
 	 .Edo_Act   ( o_Edo_Act ) 
   );
   
-  cntr_mod_n_ovf CNT (
+  cntr_mod_n_ovf 
+  #(.MAXCNT (9) )
+  CNT (
   
    .clk     (  clk  ),
    .rst     (  rst  ),
@@ -112,12 +107,14 @@ twos_comp_out TWS_CMP_PROD (
    .o_count ( cnt_w )
   );
 	 
-	   cntr_mod_n_ovf CNT_CLR (
-  
+	   cntr_mod_n_ovf
+	#(.MAXCNT (2) )	
+
+	CNT_CLR	(
    .clk     (  clk      ),
    .rst     (  rst      ),
    .i_enb   ( enb_cnt_w ),
-	.i_clr   (           ),
+	.i_clr   ( clr_cnt_w ),
  	.o_ovf   (           ),
    .o_count ( cnt_clr_w )
   );

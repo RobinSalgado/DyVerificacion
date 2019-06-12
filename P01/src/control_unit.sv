@@ -14,6 +14,7 @@ module control_unit
 	 output 	  logic			  o_enb     ,
 	 output    logic          o_clr     ,
 	 output    logic          o_enb_cnt ,
+	 output    logic          o_clr_cnt ,
 	 output    state_e        Edo_Act   
     );
 	 
@@ -39,16 +40,26 @@ module control_unit
 
 					if ( i_ovf )
 					Edo_Act <= READY;
+					
                end
 
 
 		READY : begin 
 		
-				  if ( i_start )
-				  Edo_Act <= PROCESING;
-				end 
+				 if ( i_cnt == 2 )   
+				 Edo_Act <= CLEAR; 	
+				 
+				 end
+			
+		CLEAR: begin 
 		
-		default: Edo_Act<= IDLE;
+		 if ( i_start )
+				  Edo_Act <= PROCESING;
+				end
+	
+	
+		
+//		default: Edo_Act<= IDLE;
 endcase
 		
 end
@@ -62,21 +73,25 @@ end
 		
     	IDLE: begin 
 		
-				o_rdy  = U_ZERO  ;
-				o_enb  = U_ZERO  ;
-				o_clr  = U_ZERO  ;
-				o_enb_cnt = U_ZERO;
+				o_rdy  = U_ZERO    ;
+				o_enb  = U_ZERO    ;
+				o_clr  = U_ZERO    ;
+				o_enb_cnt = U_ZERO ;
+				o_clr_cnt = U_ZERO ;
+				
 		
 	         end     
 	
 		PROCESING: begin
 		
 		   
-				o_clr  = U_ZERO  ;
-				o_enb  = U_ONE   ;
-				o_rdy  = U_ZERO  ;
-				o_enb_cnt = U_ZERO;
-				
+				o_clr  = U_ZERO    ;
+				o_enb  = U_ONE     ;
+				o_rdy  = U_ZERO    ;
+				o_enb_cnt = U_ZERO ;
+				o_clr_cnt = U_ZERO ;
+			
+
 //				if ( i_ovf ) begin
 //				
 //				o_clr  = U_ONE  ;
@@ -88,26 +103,39 @@ end
 	
 			READY: begin 
 			
-				o_rdy  = U_ONE   ;
-				o_enb  = U_ZERO  ;
-				o_clr  = U_ONE   ;
-				o_enb_cnt = U_ONE;
 				
-				if ( i_cnt >= 2 )   // conter for make clr low after 2 cycles
-				begin 
-					o_clr  = U_ZERO ;
-				  o_enb_cnt = U_ZERO; 	
+				o_rdy  = U_ONE     ;
+				o_enb  = U_ZERO    ;
+				o_clr  = U_ONE     ;
+				o_enb_cnt = U_ONE  ;
+				o_clr_cnt = U_ZERO ;
+				
+			
 				end
-			        end 
-	
-			default: begin 
+				
+				
+					  
+			CLEAR: begin 
+		        
+				  o_rdy     = U_ONE  ;
+				  o_enb     = U_ZERO ; 
+				  o_clr     = U_ZERO ;
+				  o_enb_cnt = U_ZERO ;
+				  o_clr_cnt = U_ONE  ;  
+				 
+				end
+			       			
+//	
+//			default: begin 
+//			 
+//			 o_clr  = U_ZERO    ;
+//			 o_rdy  = U_ZERO    ;
+//			 o_enb  = U_ZERO    ;
+//			 o_enb_cnt = U_ZERO ;
+//			 o_clr_cnt = U_ZERO ;
+//	
 			 
-			 o_clr  = U_ZERO   ;
-			 o_rdy  = U_ZERO   ;
-			 o_enb  = U_ZERO   ;
-			 o_enb_cnt = U_ZERO;
-			 
-						end
+//						end
 			endcase
 			
 			end // end of alws_cmb

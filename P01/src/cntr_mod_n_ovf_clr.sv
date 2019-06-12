@@ -1,3 +1,4 @@
+
 // Coder:       Abisai Ramirez Perez
 // Date:        June 2th, 2019
 // Name:        cntr_mod_n_ovf.sv
@@ -5,7 +6,7 @@
 //              overflow.
 
 // This is a Mod-n counter with overflow indication and its package. 
-module cntr_mod_n_ovf # (parameter MAXCNT	)
+module cntr_mod_n_ovf_clr
 
 (
 input                   clk,
@@ -18,7 +19,7 @@ output  logic [3:0]     o_count
 
 /********* PKG **************/
 
-
+localparam MAXCNT   	= 2;
 
 
 typedef struct {

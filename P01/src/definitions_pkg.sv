@@ -61,7 +61,8 @@ ovf_t       ovf;
     typedef enum logic [1:0]{
         IDLE        = 2'b00,
         PROCESING   = 2'b01,
-		  READY       = 2'b10
+		  READY       = 2'b10,
+		  CLEAR       = 2'b11
     } state_e;
 
     typedef enum logic {

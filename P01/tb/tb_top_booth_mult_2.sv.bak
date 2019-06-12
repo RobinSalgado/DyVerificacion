@@ -53,37 +53,43 @@ logic rdy, rst, enb, o_clr;
 	  clk   = 0;
 	  start = 1;
 	  rst   = 0;
-
-	  Multiplier		=  9;
-	  Multiplicand    =  8;
+	
+	  Multiplier		= -128;
+	  Multiplicand    = 127;
 	  
 	  #2 rst = 1;
 	  #2 start = 0;
-	  
-	  #15 Multiplier    =  49;
-	  #15 Multiplicand  =  56;
-	  
-	  
-	  /* SECOND OPERATION*/
 	
-	  Multiplier		=  49;
-	  Multiplicand    = -57;
 	  
+	  
+	  Multiplier		= 10;
+	  Multiplicand    = 10;
+	  
+	  # 25 start = 0;
 	   start = 1; 
-	   #2 start = 0;
-		
-     #15 Multiplier    =  49;
-	  #15 Multiplicand  = -57;
-	 
-	
-    /* THIRD OPERATION*/
-	
-     Multiplier		=  35;
-	  Multiplicand    = -82;
 	  
-	   start = 1; 
+	  
+
+	  
 	   #2 start = 0;
+	  
+	  
+	  
+	  
+	  /*******	WORKING WITH RST ********/
+	  
+	    
+//	  # 25 start = 1;
+//	  # 2 rst   = 0;
+//
+//	  
+//	  Multiplier		= 10;
+//	  Multiplicand  = 10;		
+//	  #2 rst = 1;
+//	  #2 start = 0;
+//	  
 	
+	  /*******	WORKING WITH RST ********/
 
 	
 end/*********************************************************/
