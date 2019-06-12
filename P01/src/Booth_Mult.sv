@@ -41,14 +41,22 @@ import definitions_pkg::*;
 			  o_m    <=   '0;
 	    end
 		
-     else begin 
-	  q<= i_mp;						  // Load of Multiplier.
+    
+//	
+//	  if ( i_load )
+//	  begin 
+//	  
+
 	  
+//	  end 
+	  
+	   else begin 
+		
+	  q<= i_mp;						     // Load of Multiplier.
+	  o_m <= i_mc; 					  // Load of Multiplicand.
+		
 	  if ( i_enb ) 
-			begin 
-	  
-	  o_m   <= i_mc; 					  // Load of Multiplicand.
-			 
+			begin 					 
 			
 	 if ( !i_ovf ) begin
 	 

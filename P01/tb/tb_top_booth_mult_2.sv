@@ -54,32 +54,32 @@ logic rdy, rst, enb, o_clr;
 	  start = 1;
 	  rst   = 0;
 
-	  Multiplier		=  9;
-	  Multiplicand    =  8;
+	  Multiplier		=  -1;
+	  Multiplicand    =  57;
 	  
 	  #2 rst = 1;
 	  #2 start = 0;
 	  
-	  #15 Multiplier    =  49;
-	  #15 Multiplicand  =  56;
+	  #15 Multiplier    =   -1;
+	  #15 Multiplicand  =    57;
 	  
 	  
 	  /* SECOND OPERATION*/
 	
-	  Multiplier		=  49;
-	  Multiplicand    = -57;
+	  Multiplier		=  -1;
+	  Multiplicand    =   57;
 	  
 	   start = 1; 
 	   #2 start = 0;
 		
-     #15 Multiplier    =  49;
-	  #15 Multiplicand  = -57;
+     #15 Multiplier    =  -1;
+	  #15 Multiplicand  = 57;
 	 
 	
     /* THIRD OPERATION*/
 	
-     Multiplier		=  35;
-	  Multiplicand    = -82;
+     Multiplier		=  -35;
+	  Multiplicand    =   82;
 	  
 	   start = 1; 
 	   #2 start = 0;
