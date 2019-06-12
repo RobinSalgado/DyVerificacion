@@ -10,7 +10,7 @@ module twos_comp_out ( i_data, o_data, o_sign);
 
 input  int16_t i_data;
 output int16_t o_data;
-output segment_e o_sign; 
+output sgmnt_e o_sign; 
 
 int16_t data_temp;
 

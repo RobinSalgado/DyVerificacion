@@ -3,24 +3,26 @@ import definitions_pkg::*;
 
  module Top_Booth_Mult_2(
  
- input             clk, rst                   ,
- input  int8_t     i_multiplier               , 
- input  int8_t     i_multiplicand             , 
- input             i_start                    ,
- output            o_rdy                      ,
- output 				 o_enb                      ,
- output            o_clr                      ,
- output int16_t    o_product                  ,
- output int8_t     o_sum , o_diff, o_m, o_acc , 
- output segment_e  o_ones, o_tens             ,
- output segment_e  o_hundreds, o_thousands    ,
- output segment_e  o_sign                     ,
- output cnt_t      o_cnt                      ,
- output cnt_t      o_cnt_clr                  ,
- output state_e    o_Edo_Act
+ input           clk, rst              ,
+ input  int8_t   Multiplier             ,   
+ input  int8_t   Multiplicand            , 
+ input           i_start               ,
+ output          ready                 ,
+ output 			  o_enb                 ,
+ output          o_clr                 ,
+ output int16_t  Product, o_prod_acc ,
+ output int8_t   o_sum , o_diff        ,
+ output int8_t   o_m, o_acc            , 
+ output sgmnt_e  o_ones, o_tens        ,
+ output sgmnt_e  o_hundrds, o_thousnds ,
+ output sgmnt_e  o_sign                ,
+ output cnt_t    o_cnt                 ,
+ output cnt_t    o_cnt_clr             ,
+ output state_e  o_Edo_Act
  
  );
  
+
  
 	int8_t  diff_w, sum_w, m_w,acc_w    ;
 	int16_t prod_w, tws_cmp_prod_w      ;
@@ -32,27 +34,10 @@ import definitions_pkg::*;
 	bcd_t tens_w     ;
 	bcd_t hundreds_w ;
 	bcd_t thousand_w ;
-	
-	
 
-	int8_t tws_cmp_mp_w; // wire for 2's comp of multiplier.
-	int8_t tws_cmp_mc_w; // wire for 2's comp of multiplicand.
 	
 	cnt_t cnt_w, cnt_clr_w	;
  
- 
- twos_comp TWS_CMP_MC (
-	
-	 .i_data ( i_multiplicand ),
-	 .o_data ( tws_cmp_mc_w   )
-   );
- 
- 
- twos_comp TWS_CMP_MP (
-		
-	 .i_data ( i_multiplier ),
-	 .o_data ( tws_cmp_mp_w )
-   );
  
 twos_comp_out TWS_CMP_PROD (
  
@@ -63,19 +48,19 @@ twos_comp_out TWS_CMP_PROD (
  
  Booth_Mult mult (
  
-  .clk    (    clk       ),
-  .rst    (    rst       ),
-  .i_clr  (    clr_w     ),
-  .i_enb  (    enb_w     ),
-  .i_ovf  (    ovf_w     ),
-  .i_mc   ( tws_cmp_mc_w ), 
-  .i_mp   ( tws_cmp_mp_w ), 
-  .i_sum  (    sum_w     ), 
-  .i_diff (    diff_w    ),
-  .i_cnt  (    cnt_w     ),
-  .o_m    (    m_w       ), 
-  .o_acc  (    acc_w     ),
-  .o_prod (    prod_w    )
+  .clk    (    clk     ),
+  .rst    (    rst     ),
+  .i_clr  (    clr_w   ),
+  .i_enb  (    enb_w   ),
+  .i_ovf  (    ovf_w   ),
+  .i_mc   ( Multiplicand ), 
+  .i_mp   ( Multiplier  ), 
+  .i_sum  (    sum_w   ), 
+  .i_diff (    diff_w  ),
+  .i_cnt  (    cnt_w   ),
+  .o_m    (    m_w     ), 
+  .o_acc  (    acc_w   ),
+  .o_prod (    prod_w  )
  ); 
   
   
@@ -97,8 +82,8 @@ twos_comp_out TWS_CMP_PROD (
   
   cntr_mod_n_ovf 
   #(.MAXCNT (9) )
-  CNT (
   
+  CTR_CNT (
    .clk     (  clk  ),
    .rst     (  rst  ),
    .i_enb   ( enb_w ),
@@ -121,24 +106,24 @@ twos_comp_out TWS_CMP_PROD (
 	 
 	 
 	 
-	 
-  //sumador
- alu SUM_MOD 
-  (
-		.a   ( acc_w ),
-		.b   ( m_w   ),
-		.cin ( 1'b0  ),
-		.out ( sum_w )
-  );
-	
-  //Restador
- alu REST_MOD 
- (
-		.a   (  acc_w ),
-		.b   (  ~m_w  ),
-		.cin (  1'b1  ),
-		.out ( diff_w )
-  );
+		 
+	  //sumador
+	 alu SUM_MOD 
+	  (
+			.a   ( acc_w ),
+			.b   ( m_w   ),
+			.cin ( 1'b0  ),
+			.out ( sum_w )
+	  );
+		
+	  //Restador
+	 alu REST_MOD 
+	 (
+			.a   (  acc_w ),
+			.b   (  ~m_w  ),
+			.cin (  1'b1  ),
+			.out ( diff_w )
+	  );
 
   bin2bcd_16  B_BCD 
   (
@@ -167,14 +152,14 @@ twos_comp_out TWS_CMP_PROD (
   (
 	  .i_BCD     ( hundreds_w ),
 	  .i_rdy     (    rdy_w   ),
-	  .o_display ( o_hundreds )
+	  .o_display ( o_hundrds  )
   );
 
   bcd2segm THOUSAND
   (	
 	  .i_BCD     ( thousand_w  ),
 	  .i_rdy     (    rdy_w    ),
-	  .o_display ( o_thousands )
+	  .o_display ( o_thousnds  )
   );
 
 bcd2segm SIGN
@@ -185,16 +170,28 @@ bcd2segm SIGN
 	.o_display ( o_sign )
 );
 
-	   assign o_m       =   m_w;
-		assign o_product =   prod_w;
-		assign o_rdy     =   rdy_w;
-		assign o_sum     =   sum_w;
-		assign o_diff    =   diff_w;
-		assign o_acc     =   acc_w;
-		assign o_cnt     =   cnt_w;
-		assign o_enb     =   enb_w;
-		assign o_clr     =   clr_w;
-		assign o_cnt_clr =   cnt_clr_w;
+
+	 pipo #(
+	 .DW(16)
+	) PROD_REG(
+	  .clk ( clk ),
+	  .rst ( rst   ),
+	  .enb ( ovf_w ),
+	  .inp ( prod_w ) ,
+	  .out ( Product )
+	);
+
+
+	   assign o_m        =   m_w;
+		assign o_prod_acc =   prod_w;
+		assign ready      =   rdy_w;
+		assign o_sum      =   sum_w;
+		assign o_diff     =   diff_w;
+		assign o_acc      =   acc_w;
+		assign o_cnt      =   cnt_w;
+		assign o_enb      =   enb_w;
+		assign o_clr      =   clr_w;
+		assign o_cnt_clr  =   cnt_clr_w;
 		
 
 endmodule 

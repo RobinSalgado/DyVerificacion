@@ -13,7 +13,7 @@ module bcd2segm
 	input bcd_t i_BCD,
 	input logic i_rdy,
 	// Output Ports
-	output segment_e o_display
+	output sgmnt_e o_display
 );
 
 

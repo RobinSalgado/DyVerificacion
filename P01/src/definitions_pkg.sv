@@ -42,7 +42,7 @@ package definitions_pkg;
       OFF   = 7'b1111111,
 		SIGN  = 7'b0111111,
 		TEN   = 7'b0001010
-	 } segment_e;
+	 } sgmnt_e;
    
 localparam DW       	= 4;
 localparam MAXCNT   	= 4;

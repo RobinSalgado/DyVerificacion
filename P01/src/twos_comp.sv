@@ -8,7 +8,7 @@ module twos_comp( i_data, o_data, o_sign);
 
 input  int8_t i_data;
 output int8_t o_data;
-output segment_e o_sign; 
+output sgmnt_e o_sign; 
 
 int8_t data_temp;
 
